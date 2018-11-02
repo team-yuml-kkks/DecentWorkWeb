@@ -14,3 +14,9 @@ WEBPACK_LOADER = {
         'IGNORE': ['.+\.hot-update.js', '.+\.map']
     }
 }
+
+# Determines if verification email is send
+# 'mandatory' - email is send user cant login without verification
+# 'optional' - email is send user can login without verification
+# 'none' - email is not send
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
