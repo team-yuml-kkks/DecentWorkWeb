@@ -16,3 +16,11 @@ WEBPACK_LOADER = {
         'IGNORE': ['.+\.hot-update.js', '.+\.map']
     }
 }
+
+INSTALLED_APPS += ('debug_toolbar',)
+
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+
+VALIDATE_FRONT_PASSWORD = False
+
+MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware', ] + MIDDLEWARE
