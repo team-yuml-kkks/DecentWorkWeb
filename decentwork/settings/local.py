@@ -25,6 +25,11 @@ VALIDATE_FRONT_PASSWORD = False
 
 MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware', ] + MIDDLEWARE
 
+INTERNAL_IPS = [
+    '0.0.0.0',
+    '127.0.0.1'
+]
+
 # Determines if verification email is send
 # 'mandatory' - email is send user cant login without verification
 # 'optional' - email is send user can login without verification
