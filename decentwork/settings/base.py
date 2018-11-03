@@ -125,6 +125,7 @@ STATIC_URL = '/static/'
 
 SITE_ID = 1
 
+AUTH_USER_MODEL = 'common.User'
 
 # AllAuth
 LOGIN_URL = '/accounts/login/'
