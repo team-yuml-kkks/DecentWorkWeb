@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
     path('common/', include('decentwork.apps.common.urls')),
+    path('cities/', include('decentwork.apps.common.urls')),
+    path('professions/', include('decentwork.apps.common.urls')),
     path('', home),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

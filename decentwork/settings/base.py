@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
     'decentwork.apps.common',
+    'decentwork.apps.home',
+    'decentwork.apps.cities',
+    'decentwork.apps.professions',
 ]
 
 MIDDLEWARE = [
