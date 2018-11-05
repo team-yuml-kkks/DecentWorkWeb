@@ -7,6 +7,15 @@ from decentwork.apps.professions.models import Profession
 
 
 class UserProfile(models.Model):
+    """User's profile for more information about user.
+
+    Attributes:
+        user (User): One to one foreign key connected with User model.
+        city (City): Foreign key to City model.
+        profession (Profession): Foreign key to profession model.
+        description (str): User's information about himself.
+        phone_numbers (ArrayField(str)): User's phone numbers. 
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,)
 
     city = models.ForeignKey(City, on_delete=models.SET_NULL, blank=True, null=True)
