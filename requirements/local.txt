@@ -1,0 +1,4 @@
+-r base.txt
+-e git+https://github.com/jazzband/django-debug-toolbar.git#egg=django-debug-toolbar
+pytest==3.6.3
+pytest-django==3.3.2
