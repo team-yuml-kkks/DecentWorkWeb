@@ -1,0 +1,15 @@
+{% load static %}
+
+{% block html %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    {% block extrahead %} {% endblock %}
+
+    {% block extrastyles %} {% endblock %}
+</head>
+<body>
+    {% block content %} {% endblock %}
+</body>
+</html>
+{% endblock %}
