@@ -1,6 +1,6 @@
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresqll',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'decentwork',
         'USER': 'postgres',
         'PASSWORD': '',
