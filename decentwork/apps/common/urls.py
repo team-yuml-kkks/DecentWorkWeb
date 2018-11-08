@@ -7,4 +7,6 @@ from . import views
 router = DefaultRouter()
 router.register(r'users', views.UserViewSet)
 
-urlpatterns = [] + router.urls
+urlpatterns = [
+    path('login/', views.UserApiLogin.as_view()),
+] + router.urls
