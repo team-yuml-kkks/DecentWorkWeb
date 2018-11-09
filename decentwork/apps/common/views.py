@@ -1,13 +1,14 @@
-from django.db import IntegrityError
-from django.core.exceptions import ValidationError
-from django.shortcuts import render
 from django.contrib.auth import authenticate
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
+from django.shortcuts import render
 from rest_framework import status, viewsets
-from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from decentwork.apps.common.models import User
-from decentwork.apps.common.serializers import UserRegisterSerializer, UserLoginSerializer
+from decentwork.apps.common.serializers import (UserLoginSerializer,
+                                                UserRegisterSerializer)
 
 
 class UserViewSet(viewsets.ModelViewSet):
