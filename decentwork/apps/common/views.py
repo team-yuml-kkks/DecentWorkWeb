@@ -28,7 +28,7 @@ class UserApiLogin(APIView):
         serializer = UserLoginSerializer(data=request.data)
 
         if serializer.is_valid():
-            user = User.objects.filter(email=request.data['email'])
+            user = User.objects.filter(email=request.data['email']).first()
 
             if user is not None:
                 user = authenticate(
