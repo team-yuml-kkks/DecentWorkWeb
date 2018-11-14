@@ -10,7 +10,7 @@ class UserProfileSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer: UserProfileSerializer):
         serializer.save(
             self.request.data['first_name'],
             self.request.data['last_name']
