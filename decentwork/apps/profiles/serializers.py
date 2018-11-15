@@ -7,7 +7,7 @@ from decentwork.apps.profiles.models import UserProfile
 class UserProfileSerializer(serializers.ModelSerializer):
     """Provides json serializer for `UserProfile` model"""
 
-    def save(self, first_name, last_name):
+    def save(self, first_name: str, last_name: str):
         """Saves user profile.
 
         Adds to common `User` model first_name and last_name

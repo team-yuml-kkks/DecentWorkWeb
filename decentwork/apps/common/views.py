@@ -17,15 +17,17 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer
 
-    def perform_create(self, serializer):
-        """Create user."""
+    def perform_create(self, serializer: UserRegisterSerializer):
+        """Creates user."""
         password = self.request.data['password']
 
         serializer.save(password=password)
 
 
 class UserApiLogin(APIView):
-    def post(self, request, format=None):
+
+    def post(self, request, format=None) -> Response:
+        """Tries to authenticate user."""
         serializer = UserLoginSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -40,6 +42,6 @@ class UserApiLogin(APIView):
                 if user is not None:
                     return Response(serializer.data, status=status.HTTP_200_OK)
 
-            return Response(serializer.data, status=status.HTTP_401_UNAUTHORIZED)    
+            return Response(serializer.data, status=status.HTTP_401_UNAUTHORIZED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -6,8 +6,15 @@ from decentwork.apps.common.models import User
 
 class UserRegisterSerializer(serializers.ModelSerializer):
 
-    def validate_email(self, value):
-        """Validate is unique."""
+    def validate_email(self, value: str) -> str:
+        """Validate if email is unique.
+
+        Returns:
+            If email is unique returns it.
+
+        Raises:
+            ValidationError: When email is not unique.
+        """
         user = User.objects.filter(email=value)
 
         if user:
@@ -15,7 +22,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
         return value
 
-    def save(self, password):
+    def save(self, password: str):
+        """Creates user."""
         email = self.validated_data['email']
 
         User.objects.create_user(username=email, email=email, password=password)
