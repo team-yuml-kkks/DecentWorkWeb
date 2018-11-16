@@ -1,5 +1,6 @@
-import os
 import json
+import os
+from typing import Any, Dict, Optional
 
 from django.conf import settings
 from django.contrib.staticfiles.templatetags.staticfiles import static
@@ -7,7 +8,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from .exceptions import NoManifestFileException, NoAssetInManifestFile
 
 
-def get_static_url(resource_path: str, extension: str):
+def get_static_url(resource_path: str, extension: str) -> Optional[str]:
     """Gets static url to resource file.
 
     Returns:
@@ -26,9 +27,10 @@ def get_static_url(resource_path: str, extension: str):
             raise NoAssetInManifestFile('No ' + filename + ' in manifest file.')
 
         return static(filename)
+    return None
 
 
-def _read_manifest_file():
+def _read_manifest_file() -> Dict[str, str]:
     """Reads manifest file.
 
     Returns:
@@ -46,7 +48,7 @@ def _read_manifest_file():
             return json.loads(file.read())
     except FileNotFoundError:
         raise NoManifestFileException(
-            'No manifest file at this path ' + path + 'check WEBPACK_MANIFEST_FILE setting.'
+            'No manifest file at this path ' + path + ' check WEBPACK_MANIFEST_FILE setting.'
         )
     except json.JSONDecodeError:
         raise ValueError('Manifest file do not contains valid json data.')

@@ -1,13 +1,15 @@
+from typing import Any
+
 from django import template
 from django.utils.safestring import mark_safe
 
-from ..fileloader import get_static_url
+from decentwork.apps.loader.fileloader import get_static_url
 
 register = template.Library()
 
 
 @register.simple_tag
-def get_js(resource_path):
+def get_js(resource_path: str) -> Any:
     """Gets full url for javascript file with HTML tag.
 
     Args:
@@ -21,7 +23,7 @@ def get_js(resource_path):
 
 
 @register.simple_tag
-def get_css(resource_path):
+def get_css(resource_path: str) -> Any:
     """Gets full url for css file with HTML tag.
 
     Args:
@@ -35,7 +37,7 @@ def get_css(resource_path):
 
 
 @register.simple_tag
-def get_img(resource_path, extension):
+def get_img(resource_path: str, extension: str) -> Any:
     """Gets full path to image file wih HTML tag.
 
     Args:
