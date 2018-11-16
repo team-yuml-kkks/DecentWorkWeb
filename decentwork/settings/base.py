@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'decentwork.apps.cities',
     'decentwork.apps.professions',
     'decentwork.apps.profiles',
+    'decentwork.apps.loader',
 ]
 
 MIDDLEWARE = [

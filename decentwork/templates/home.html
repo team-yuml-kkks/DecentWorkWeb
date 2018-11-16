@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
+{% load load_asset %}
 
 {% block content %}
 <div id="application">
 </div>
 
 <p>Home Page</p>
+
+{% get_js 'app' %}
 
 {% endblock %}
