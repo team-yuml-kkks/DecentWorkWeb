@@ -3,4 +3,6 @@ from django.urls import path, re_path
 
 from . import views
 
-urlpatterns = []
+urlpatterns = [
+    path('search/', views.CityLiveSearch.as_view()),
+]
