@@ -1,3 +1,24 @@
-from django.shortcuts import render
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-# Create your views here.
+from decentwork.apps.cities.selectors import select_cities_starts_with_query_limit_5
+from decentwork.apps.cities.serializers import CitySerializer
+
+
+class CityLiveSearch(APIView):
+
+    def get(self, request, format=None) -> Response:
+        """Gets cities started with entered queryset."""
+        query = request.data.get('query', None)
+
+        if query:
+            cities = select_cities_starts_with_query_limit_5(query)
+
+            if cities:
+                serializer = CitySerializer(cities, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+
+            return Response('No cities with this query', status=status.HTTP_400_BAD_REQUEST)
+
+        return Response('No query string', status=status.HTTP_400_BAD_REQUEST)
