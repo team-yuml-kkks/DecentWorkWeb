@@ -2,8 +2,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from decentwork.apps.cities.selectors import select_professions_starts_with_query_limit_5
-from decentwork.apps.cities.serializers import ProfessionSerializer
+from decentwork.apps.professions.selectors import select_professions_starts_with_query_limit_5
+from decentwork.apps.professions.serializers import ProfessionSerializer
 
 
 class ProfessionLiveSearch(APIView):
