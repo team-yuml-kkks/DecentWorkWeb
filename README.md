@@ -17,9 +17,19 @@ source env/bin/activate
 pip install -r requirements/local.txt
 ```
 
-### JavaScript
+### Install JavaScript packages:
 ```
 npm install
+```
+
+### Build JavaScript
+```
+npm run build
+```
+
+### Watch
+```
+npm run watch
 ```
 
 ### Database
