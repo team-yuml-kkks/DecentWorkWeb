@@ -1,0 +1,20 @@
+[
+  {
+    "model": "cities.city",
+    "pk": 1,
+    "fields": { "name": "\u0141\u00f3d\u017a" }
+  },
+  { "model": "cities.city", "pk": 2, "fields": { "name": "Warszawa" } },
+  { "model": "cities.city", "pk": 3, "fields": { "name": "Wroc\u0142aw" } },
+  { "model": "cities.city", "pk": 4, "fields": { "name": "Pozna\u0144" } },
+  { "model": "cities.city", "pk": 5, "fields": { "name": "Krak\u00f3w" } },
+  { "model": "cities.city", "pk": 6, "fields": { "name": "Chorz\u00f3w" } },
+  { "model": "cities.city", "pk": 7, "fields": { "name": "Wolin" } },
+  { "model": "cities.city", "pk": 8, "fields": { "name": "Wielu\u0144" } },
+  { "model": "cities.city", "pk": 9, "fields": { "name": "Weso\u0142a" } },
+  { "model": "cities.city", "pk": 10, "fields": { "name": "Wejherowo" } },
+  { "model": "cities.city", "pk": 11, "fields": { "name": "Wa\u0142brzych" } },
+  { "model": "cities.city", "pk": 12, "fields": { "name": "Lubin" } },
+  { "model": "cities.city", "pk": 13, "fields": { "name": "Bia\u0142ystok" } },
+  { "model": "cities.city", "pk": 14, "fields": { "name": "Zgierz" } }
+]
