@@ -28,3 +28,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 WEBPACK_MANIFEST_FILE = {
     'FILE': os.path.join(BASE_DIR, './../manifest-local.json'),
 }
+
+FIXTURE_DIRS = [
+    os.path.join(BASE_DIR, 'fixtures', 'dev'),
+]
