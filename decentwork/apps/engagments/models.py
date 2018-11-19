@@ -27,6 +27,9 @@ class Engagment(models.Model):
     created = models.DateTimeField(editable=False)
     is_done = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.title
+
     def save(self, *args, **kwargs):
         """Adds to created as time now."""
         self.created = timezone.now()
