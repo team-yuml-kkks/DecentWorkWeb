@@ -10,7 +10,7 @@ class CityLiveSearch(APIView):
 
     def get(self, request, format=None) -> Response:
         """Gets cities started with entered queryset."""
-        query = request.data.get('query', None)
+        query = request.query_params.get('query', None)
 
         if query:
             cities = select_cities_starts_with_query_limit_5(query)
