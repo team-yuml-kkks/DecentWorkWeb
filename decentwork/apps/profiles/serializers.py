@@ -1,3 +1,5 @@
+from typing import Optional
+
 from rest_framework import serializers
 
 from decentwork.apps.common.models import User
@@ -7,7 +9,7 @@ from decentwork.apps.profiles.models import UserProfile
 class UserProfileSerializer(serializers.ModelSerializer):
     """Provides json serializer for `UserProfile` model"""
 
-    def save(self, first_name: str, last_name: str):
+    def save(self, first_name: str, last_name: str, web_user: Optional[User] = None):
         """Saves user profile.
 
         Adds to common `User` model first_name and last_name
@@ -17,7 +19,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
             first_name: User's first_name
             last_name: User's last_name
         """
-        user = self.validated_data['user']
+        if web_user is None:
+            user = self.validated_data['user']
+        else:
+            user = web_user
+
         user.first_name = first_name
         user.last_name = last_name
         user.save()
