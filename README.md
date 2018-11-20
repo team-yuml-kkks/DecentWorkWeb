@@ -39,8 +39,14 @@ Copy `decentwork/settings/db.py.base` to `decentwork/settings/db.py` and
 ```
 
 ### Google Sign In
-To install Google sign in you have to add to find google_credentials.json in decentwork/fixtures and
+To install Google sign in you have to find google_credentials.json in decentwork/fixtures and
 enter your client id and secret key from Google OAuth client API and then do
 ```
 ./manage.py loaddata decentwork/fixtures/google_credentials.json
+```
+
+### Other fixtures
+Installing other fixtures needed for application to work
+```
+./manage.py loaddata cities
 ```
