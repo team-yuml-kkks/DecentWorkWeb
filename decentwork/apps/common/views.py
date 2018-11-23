@@ -25,11 +25,12 @@ class UserViewSet(viewsets.ModelViewSet):
             ParseError: When no email or password in post parameters.
         """
         password = self.request.data.get('password', None)
+        email = self.request.data.get('email', None)
 
-        if password is None or self.request.data.get('email', None) is None:
+        if password is None or email is None:
             raise ParseError()
-            
-        serializer.save(password=password)
+        
+        User.objects.create_user(username=email, email=email, password=password)
 
 
 class UserApiLogin(APIView):
