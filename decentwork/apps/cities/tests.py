@@ -1,5 +1,6 @@
 from collections import OrderedDict
 
+from django.db import IntegrityError
 from django.test import Client, TestCase
 from rest_framework.test import APITestCase
 
@@ -18,7 +19,11 @@ class CityTests(TestCase):
     def test_unique_city(self):
         """Tests if i can't add city which alread exists."""
         City.objects.create(name='Test')
-        city2 = City.objects.create(name='Test')
+        city2 = None
+        try:
+            city2 = City.objects.create(name='Test')
+        except IntegrityError:
+            pass
         self.assertEqual(city2, None)
 
     def test_city_str_represantation(self):
