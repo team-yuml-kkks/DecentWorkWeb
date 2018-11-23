@@ -31,4 +31,5 @@ WEBPACK_MANIFEST_FILE = {
 
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'fixtures', 'dev'),
+    os.path.join(BASE_DIR, 'fixtures', 'tests')
 ]
