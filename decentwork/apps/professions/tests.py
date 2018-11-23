@@ -1,5 +1,6 @@
 from collections import OrderedDict
 
+from django.db import IntegrityError
 from django.test import Client, TestCase
 from rest_framework.test import APITestCase
 
@@ -19,7 +20,13 @@ class ProfessionTests(TestCase):
     def test_unique_profession(self):
         """Tests if i can't add city which alread exists."""
         Profession.objects.create(name='Test')
-        profession = Profession.objects.create(name='Test')
+        profession = None
+
+        try:
+            profession = Profession.objects.create(name='Test')
+        except IntegrityError:
+            pass
+
         self.assertEqual(profession, None)
 
     def test_profession_str_represantation(self):

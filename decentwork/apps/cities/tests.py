@@ -21,10 +21,12 @@ class CityTests(TestCase):
         """Tests if i can't add city which alread exists."""
         City.objects.create(name='Test')
         city2 = None
+
         try:
             city2 = City.objects.create(name='Test')
         except IntegrityError:
             pass
+
         self.assertEqual(city2, None)
 
     def test_city_str_represantation(self):
