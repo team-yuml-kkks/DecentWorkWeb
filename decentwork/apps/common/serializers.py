@@ -22,11 +22,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
         return value
 
-    def save(self, password: str):
-        """Creates user."""
-        email = self.validated_data['email']
-
-        User.objects.create_user(username=email, email=email, password=password)
 
     class Meta:
         model = User
