@@ -28,15 +28,21 @@ class UserApiLogin(APIView):
 
     def post(self, request, format=None) -> Response:
         """Tries to authenticate user."""
+        password = request.data.get('password', None)
+        email = request.data.get('email', None)
+
+        if not email or not password:
+            return Response("Brak hasła lub adresu e-mail.", status=status.HTTP_400_BAD_REQUEST)
+
         serializer = UserLoginSerializer(data=request.data)
 
         if serializer.is_valid():
-            user = User.objects.filter(email=request.data['email']).first()
+            user = User.objects.filter(email=email).first()
 
             if user is not None:
                 user = authenticate(
                     username=user.username,
-                    password=request.data['password']
+                    password=password
                 )
 
                 if user is not None:
