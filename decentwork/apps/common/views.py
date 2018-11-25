@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.shortcuts import render
 from rest_framework import status, viewsets
+from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -18,9 +19,16 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserRegisterSerializer
 
     def perform_create(self, serializer: UserRegisterSerializer):
-        """Creates user."""
-        password = self.request.data['password']
+        """Creates user.
+        
+        Raises:
+            ParseError: When no email or password in post parameters.
+        """
+        password = self.request.data.get('password', None)
 
+        if password is None or self.request.data.get('email', None) is None:
+            raise ParseError()
+            
         serializer.save(password=password)
 
 
