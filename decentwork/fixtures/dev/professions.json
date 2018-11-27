@@ -1,0 +1,52 @@
+[
+  {
+    "model": "professions.profession",
+    "pk": 1,
+    "fields": { "name": "Hydraulik" }
+  },
+  {
+    "model": "professions.profession",
+    "pk": 2,
+    "fields": { "name": "Elektryk" }
+  },
+  {
+    "model": "professions.profession",
+    "pk": 3,
+    "fields": { "name": "Murarz" }
+  },
+  {
+    "model": "professions.profession",
+    "pk": 4,
+    "fields": { "name": "Cie\u015bla" }
+  },
+  {
+    "model": "professions.profession",
+    "pk": 5,
+    "fields": { "name": "Dekarz" }
+  },
+  {
+    "model": "professions.profession",
+    "pk": 6,
+    "fields": { "name": "Geodeta" }
+  },
+  {
+    "model": "professions.profession",
+    "pk": 7,
+    "fields": { "name": "Malarz Budowlany" }
+  },
+  {
+    "model": "professions.profession",
+    "pk": 8,
+    "fields": { "name": "Malarz-Tapeciarz" }
+  },
+  {
+    "model": "professions.profession",
+    "pk": 9,
+    "fields": { "name": "Operator \u017burawia" }
+  },
+  {
+    "model": "professions.profession",
+    "pk": 10,
+    "fields": { "name": "Tynkarz" }
+  }
+]
