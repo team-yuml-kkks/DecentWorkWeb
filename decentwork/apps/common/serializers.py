@@ -4,6 +4,13 @@ from rest_framework import serializers
 from decentwork.apps.common.models import User
 
 
+user_fields = {
+    'id': {'read_only': True},
+    'email': {'allow_null': False, 'required': True},
+    'password': {'write_only': True}
+}
+
+
 class UserRegisterSerializer(serializers.ModelSerializer):
 
     def validate_email(self, value: str) -> str:
@@ -22,14 +29,15 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
         return value
 
-
     class Meta:
         model = User
-        fields = ('email',)
+        fields = ('id', 'email', 'password')
+        extra_kwargs = user_fields
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email',)
+        fields = ('id', 'email', 'password')
+        extra_kwargs = user_fields
