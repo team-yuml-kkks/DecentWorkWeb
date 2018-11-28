@@ -7,6 +7,7 @@ from decentwork.apps.professions.serializers import ProfessionSerializer
 
 
 class ProfessionLiveSearch(APIView):
+    authentication_classes = ()
 
     def get(self, request, format=None) -> Response:
         """Gets cities started with entered queryset."""

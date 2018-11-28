@@ -7,6 +7,7 @@ from decentwork.apps.cities.serializers import CitySerializer
 
 
 class CityLiveSearch(APIView):
+    authentication_classes = ()
 
     def get(self, request, format=None) -> Response:
         """Gets cities started with entered queryset."""

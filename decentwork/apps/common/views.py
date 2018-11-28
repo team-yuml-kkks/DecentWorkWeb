@@ -1,9 +1,8 @@
 from django.contrib.auth import authenticate
-from django.core.exceptions import ValidationError
-from django.db import IntegrityError
-from rest_framework import status, viewsets
+from rest_framework import authentication, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
 from decentwork.apps.common.models import User
 from decentwork.apps.common.serializers import (UserLoginSerializer,
@@ -14,9 +13,19 @@ class UserViewSet(viewsets.ModelViewSet):
     """ViewSet for User common model."""
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+
+    def get_permissions(self):
+        if self.action == 'create' or self.action == 'retrieve':
+            permission_classes = []
+        else:
+            permission_classes = [IsAuthenticated]
+
+        return [permission() for permission in permission_classes]
 
 
 class UserApiLogin(APIView):
+    authentication_classes = ()
 
     def post(self, request, format=None) -> Response:
         """Tries to authenticate user."""

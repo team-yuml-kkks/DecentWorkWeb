@@ -1,6 +1,7 @@
 from collections import OrderedDict
 
 from django.test import Client, TestCase
+from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient, APITestCase
 
 from decentwork.apps.common.models import User
@@ -15,7 +16,9 @@ class UserApiTests(APITestCase):
 
     def test_list_in_user_viewset(self):
         """Tests response where getting list from viewset."""
-        response = self.client.get('/common/users/')
+        token = Token.objects.get(user=1)
+        self.apiclient.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        response = self.apiclient.get('/common/users/')
         self.assertEqual(response.data, [OrderedDict(
             [('id', 1), ('email', 'test@test.com')])])
 
@@ -69,12 +72,16 @@ class UserApiTests(APITestCase):
 
     def test_update_user_email_only(self):
         """Tests if update user viewset method work for email only."""
+        token = Token.objects.get(user=1)
+        self.apiclient.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         data = {'email': 'test2@test.com'}
         response = self.apiclient.patch('/common/users/1/', data)
         self.assertEqual(response.status_code, 200)
 
     def test_update_when_wrong_user(self):
         """Tests if 404 when no user in database."""
+        token = Token.objects.get(user=1)
+        self.apiclient.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         data = {'email': 'test2@test.com'}
         response = self.apiclient.patch('/common/users/2/', data)
         self.assertEqual(response.status_code, 404)

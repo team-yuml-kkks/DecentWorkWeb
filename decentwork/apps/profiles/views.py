@@ -10,6 +10,7 @@ class UserProfileSet(viewsets.ModelViewSet):
 
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
+    authentication_classes = []
 
     def perform_create(self, serializer: UserProfileSerializer):
         is_mobile = self.request.data.get('is_mobile', False)
