@@ -1,9 +1,7 @@
 from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
-from django.shortcuts import render
 from rest_framework import status, viewsets
-from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -14,23 +12,8 @@ from decentwork.apps.common.serializers import (UserLoginSerializer,
 
 class UserViewSet(viewsets.ModelViewSet):
     """ViewSet for User common model."""
-
     queryset = User.objects.all()
     serializer_class = UserRegisterSerializer
-
-    def perform_create(self, serializer: UserRegisterSerializer):
-        """Creates user.
-        
-        Raises:
-            ParseError: When no email or password in post parameters.
-        """
-        password = self.request.data.get('password', None)
-        email = self.request.data.get('email', None)
-
-        if password is None or email is None:
-            raise ParseError()
-        
-        User.objects.create_user(username=email, email=email, password=password)
 
 
 class UserApiLogin(APIView):

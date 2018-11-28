@@ -22,10 +22,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
         return value
 
-
     class Meta:
         model = User
-        fields = ('email',)
+        fields = ('id', 'email', 'password')
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'email': {'allow_null': False, 'required': True},
+            'password': {'write_only': True}
+        }
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
