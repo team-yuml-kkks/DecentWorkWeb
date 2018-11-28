@@ -5,7 +5,11 @@ from decentwork.apps.engagments.models import Engagment
 
 class EngagmentSerializer(serializers.ModelSerializer):
     """Serialize `Engagment` to json."""
+    profession = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='name'
+    )
 
     class Meta:
         model = Engagment
-        fields = '__all__'
+        fields = ('id', 'title', 'profession')
