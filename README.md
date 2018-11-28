@@ -48,5 +48,5 @@ enter your client id and secret key from Google OAuth client API and then do
 ### Other fixtures
 Installing other fixtures needed for application to work
 ```
-./manage.py loaddata cities professions
+./manage.py loaddata cities professions users engagments
 ```
