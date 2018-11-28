@@ -19,8 +19,8 @@ class UserApiTests(APITestCase):
         token = Token.objects.get(user=1)
         self.apiclient.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         response = self.apiclient.get('/common/users/')
-        self.assertEqual(response.data, [OrderedDict(
-            [('id', 1), ('email', 'test@test.com')])])
+        self.assertEqual(response.data[0]['id'], 1)
+        self.assertEqual(response.data[0]['email'], 'test@test.com')
 
     def test_creating_new_user(self):
         """Tests creating view in viewset."""
@@ -63,7 +63,8 @@ class UserApiTests(APITestCase):
     def test_retriving_user(self):
         """Tests response data in retriev view."""
         response = self.client.get('/common/users/1/')
-        self.assertEqual(response.data, {'id': 1, 'email': 'test@test.com'})
+        self.assertEqual(response.data['email'], 'test@test.com')
+        self.assertEqual(response.data['id'], 1)
 
     def test_retriving_user_when_wrong_id(self):
         """Tests if status_code is 404 when no user in database."""
@@ -91,7 +92,7 @@ class UserApiTests(APITestCase):
         data = {'email': 'test@test.com', 'password': 'test1234#'}
         response = self.client.post('/common/login/', data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, {'email': 'test@test.com'})
+        self.assertEqual(response.data['email'], 'test@test.com')
 
     def test_login_when_wrong_email_format(self):
         """Tests login when email has wrong format."""
