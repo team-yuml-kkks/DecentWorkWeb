@@ -9,6 +9,7 @@ class EngagmentsViewSet(viewsets.ModelViewSet):
 
     queryset = Engagment.objects.all()
     serializer_class = EngagmentSerializer
+    authentication_classes = []
 
     def perform_create(self, serializer: EngagmentSerializer):
         serializer.save(owner=self.request.user)
