@@ -1,4 +1,7 @@
+from django.conf import settings
 from django.contrib.auth import authenticate
+from google.oauth2 import id_token
+from google.auth.transport import requests
 from rest_framework import authentication, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -47,3 +50,21 @@ class UserApiLogin(APIView):
             return Response(serializer.data, status=status.HTTP_401_UNAUTHORIZED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TokenSignIn(APIView):
+    authentication_classes = ()
+
+    def post(self, request, format=None) -> Response:
+        token = request.data.get('idToken', None)
+        
+        if token:
+            idinfo = id_token.verify_oauth2_token(token, requests.Request(), settings.CLIENT_ID)
+
+            if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
+                return Response("Token jest zły", status=status.HTTP_401_UNAUTHORIZED)
+
+            userid = idinfo['sub']
+            print(userid)
+
+        return Response("Brak tokenu", status=status.HTTP_400_BAD_REQUEST)
