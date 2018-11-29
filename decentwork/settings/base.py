@@ -24,7 +24,7 @@ SECRET_KEY = '4&qn5dk*oxej#wb+jmd^y3&*tr^x2-5%^q-^jrwiix3+rpc^(-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -168,3 +168,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication'
     }
 }
+
+from .google_token import *
