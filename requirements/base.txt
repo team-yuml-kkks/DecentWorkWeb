@@ -3,3 +3,4 @@ psycopg2-binary==2.7.5
 djangorestframework==3.8.2
 django-allauth==0.37.1
 mypy==0.641
+google-auth==1.6.1
