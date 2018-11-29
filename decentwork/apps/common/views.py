@@ -1,15 +1,15 @@
 from typing import Dict, Optional
 
-from allauth.socialaccount.models import SocialAccount
 from allauth.account.adapter import get_adapter
+from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.contrib.auth import authenticate
-from google.oauth2 import id_token
 from google.auth.transport import requests
+from google.oauth2 import id_token
 from rest_framework import authentication, status, viewsets
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
 
 from decentwork.apps.common.models import User
 from decentwork.apps.common.serializers import (UserLoginSerializer,
