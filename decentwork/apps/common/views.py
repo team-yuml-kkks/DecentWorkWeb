@@ -108,7 +108,7 @@ class TokenSignIn(APIView):
             email=user.email,
         )
 
-    def _create_user(self, idinfo: Dict) -> User:
+    def _create_user(self, idinfo: Dict[str, str]) -> User:
         """Creates new User.
         
         Args:
