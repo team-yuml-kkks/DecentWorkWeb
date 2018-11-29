@@ -38,12 +38,16 @@ Copy `decentwork/settings/db.py.base` to `decentwork/settings/db.py` and
 ./manage.py migrate
 ```
 
-### Google Sign In
+### Google Sign In Web
 To install Google sign in you have to find google_credentials.json in decentwork/fixtures and
-enter your client id and secret key from Google OAuth client API and then do
+enter your client id and secret key from Google OAuth client API and then do:
 ```
 ./manage.py loaddata decentwork/fixtures/google_credentials.json
 ```
+
+### Google Sign In mobile token
+To install google authentication from mobile with oauth2 token u have to copy google_token.base file,
+rename it to google_token.py and then fill CLIENT_ID setting with your client id from google android application.
 
 ### Other fixtures
 Installing other fixtures needed for application to work
