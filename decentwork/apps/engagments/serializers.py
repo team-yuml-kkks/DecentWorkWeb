@@ -1,15 +1,26 @@
 from rest_framework import serializers
 
+from decentwork.apps.cities.models import City
 from decentwork.apps.engagments.models import Engagment
+from decentwork.apps.professions.models import Profession
 
 
 class EngagmentSerializer(serializers.ModelSerializer):
     """Serialize `Engagment` to json."""
     profession = serializers.SlugRelatedField(
-        read_only=True,
+        queryset=Profession.objects.all(),
+        slug_field='name'
+    )
+
+    city = serializers.SlugRelatedField(
+        queryset=City.objects.all(),
         slug_field='name'
     )
 
     class Meta:
         model = Engagment
-        fields = ('id', 'title', 'profession')
+        fields = ('id', 'title', 'profession', 'owner', 'city', 'title', 'description', 'created')
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'city': {'required': False}
+        }
