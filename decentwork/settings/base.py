@@ -168,3 +168,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication'
     }
 }
+
+from .google_token import *
