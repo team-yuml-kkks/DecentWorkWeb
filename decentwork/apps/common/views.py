@@ -1,6 +1,6 @@
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
-from allauth.account.adapter import get_adapter
+from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.contrib.auth import authenticate
@@ -13,7 +13,8 @@ from rest_framework.views import APIView
 
 from decentwork.apps.common.models import User
 from decentwork.apps.common.serializers import (UserLoginSerializer,
-                                                UserRegisterSerializer)
+                                                UserRegisterSerializer,
+                                                GoogleTokenSerializer)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -62,14 +63,14 @@ class TokenSignIn(APIView):
 
     def post(self, request, format=None) -> Response:
         """Creates user with data from Google oauth2 token when email doesn't exist in database.
-        
+
         Returns:
             Response with UserLoginSerializer data and status code equal 200 if everything went okay.
             Response with status code equal 400 when user didn't send idToken with request.
             Response with status code equal 401 when token is invalid.
         """
         token = request.data.get('idToken', None)
-        
+
         if token:
             idinfo = id_token.verify_oauth2_token(token, requests.Request(), settings.CLIENT_ID)
 
@@ -77,52 +78,80 @@ class TokenSignIn(APIView):
                 return Response("Token jest zły", status=status.HTTP_401_UNAUTHORIZED)
 
             email = idinfo['email']
-            user =  User.objects.filter(email=email).first()
+            user = User.objects.filter(email=email).first()
 
             if user is None:
                 new_user = self._create_user(idinfo)
 
-                social_user = SocialAccount.create(
-                    user=user,
+                SocialAccount.objects.create(
+                    user=new_user,
                     provider='google',
                     uid=idinfo['sub'],
                     extra_data=idinfo
                 )
 
-                serializer = self._serialize_user_data(new_user)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                EmailAddress.objects.create(
+                    user=new_user,
+                    email=email,
+                    primary=True,
+                    verified=idinfo['email_verified']
+                )
+
+                return self._prepare_response(new_user)
             else:
-                serializer = self._serialize_user_data(user)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                return self._prepare_response(user)
 
         return Response("Brak tokenu", status=status.HTTP_400_BAD_REQUEST)
 
-    def _serialize_user_data(self, user: User) -> UserLoginSerializer:
-        """Serialize user data.
-        
+    def _prepare_response(self, user: User) -> Optional[Dict[str, Any]]:
+        """Serializes user data and prepares response for token sign in.
+
+        Args:
+            user: User to serialize.
+
+        Returns:
+            Response with status 200 when serializer data is valid
+            Response with status 400 when serializer data is invalid
+        """
+        try:
+            data = self._serialize_user_data(user)
+            return Response(data, status=status.HTTP_200_OK)
+        except ValueError:
+            return Response("Błąd serializacji", status=status.HTTP_400_BAD_REQUEST)
+
+    def _serialize_user_data(self, user: User) -> GoogleTokenSerializer:
+        """Serializes user data.
+
         Args:
             user: User object to serialize.
-        """
-        return UserLoginSerializer(
-            id=user.id,
-            email=user.email,
-        )
 
-    def _create_user(self, idinfo: Dict[str, str]) -> User:
+        Raises:
+            ValueError: When serializer has not valid data
+
+        Returns:
+            Serialized data.
+        """
+        serializer = GoogleTokenSerializer(data={'email': user.email})
+
+        if serializer.is_valid():
+            return serializer.data
+
+        raise ValueError
+
+    def _create_user(self, idinfo: Dict[str, Any]) -> User:
         """Creates new User.
-        
+
         Args:
             ididnfo: Information from Google about user.
-        
+
         Returns:
             Saved new user.
         """
         user = User()
-        user.set_unusable_password(True)
+        # mark user to have no password
+        user.set_unusable_password()
         user.email = idinfo['email']
         user.username = idinfo['email']
-        user.first_name = idinfo['given_name']
-        user.last_name = idinfo['family_name']
         user.save()
 
         return user
