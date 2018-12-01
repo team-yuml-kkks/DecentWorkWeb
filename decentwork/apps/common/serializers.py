@@ -1,8 +1,9 @@
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
-from rest_framework.authtoken.models import Token
 
 from decentwork.apps.common.models import User
+from decentwork.apps.common.selectors import (get_token_by_email,
+                                              get_token_by_id)
 
 
 user_fields = {
@@ -33,7 +34,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return value
 
     def get_token(self, obj):
-        return Token.objects.filter(user__id=obj.id).values('key').first()
+        return get_token_by_id(obj.id)
 
     class Meta:
         model = User
@@ -45,9 +46,21 @@ class UserLoginSerializer(serializers.ModelSerializer):
     token = serializers.SerializerMethodField()
 
     def get_token(self, obj):
-        return Token.objects.filter(user__email=obj['email']).values('key').first()
+        return get_token_by_email(obj['email'])
 
     class Meta:
         model = User
         fields = ('id', 'email', 'password', 'token')
         extra_kwargs = user_fields
+
+
+class GoogleTokenSerializer(serializers.ModelSerializer):
+    """Handle response for Google oauth2 token sign in from mobile."""
+    token = serializers.SerializerMethodField()
+
+    def get_token(self, obj):
+        return get_token_by_email(obj['email'])
+
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'token')
