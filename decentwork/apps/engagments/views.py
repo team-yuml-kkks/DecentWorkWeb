@@ -15,7 +15,7 @@ class EngagmentsPagination(PageNumberPagination):
 class EngagmentsViewSet(viewsets.ModelViewSet):
     """ViewSet for `Engagment` model."""
 
-    queryset = Engagment.objects.filter(is_done=False)
+    queryset = Engagment.objects.filter(is_done=False).order_by('created')
     serializer_class = EngagmentSerializer
     authentication_classes = []
     pagination_class = EngagmentsPagination
