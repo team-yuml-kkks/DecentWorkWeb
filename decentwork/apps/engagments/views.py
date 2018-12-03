@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import authentication, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 
@@ -17,7 +17,7 @@ class EngagmentsViewSet(viewsets.ModelViewSet):
 
     queryset = Engagment.objects.filter(is_done=False).order_by('created')
     serializer_class = EngagmentSerializer
-    authentication_classes = []
+    authentication_classes = [authentication.TokenAuthentication]
     pagination_class = EngagmentsPagination
 
     def get_permissions(self):
