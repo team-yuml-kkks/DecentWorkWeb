@@ -52,5 +52,5 @@ rename it to google_token.py and then fill CLIENT_ID setting with your client id
 ### Other fixtures
 Installing other fixtures needed for application to work
 ```
-./manage.py loaddata cities professions users engagments
+./manage.py loaddata cities professions users engagments uprofiles
 ```
