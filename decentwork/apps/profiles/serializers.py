@@ -44,6 +44,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
+        """Creates user profile and updates user object if necessary."""
         professions = None
 
         if 'professions' in validated_data:
@@ -59,7 +60,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
             user = auth_user
 
         validated_data['user'] = user
-
         profile = UserProfile.objects.create(**validated_data)
 
         if professions is not None:
