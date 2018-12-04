@@ -1,8 +1,10 @@
-from rest_framework import viewsets
-from rest_framework.exceptions import NotAuthenticated
+from rest_framework import authentication, status, viewsets
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from decentwork.apps.profiles.models import UserProfile
-from decentwork.apps.profiles.serializers import UserProfileSerializer
+from decentwork.apps.profiles.serializers import (UserNamesSerializer, 
+                                                  UserProfileSerializer)
 
 
 class UserProfileSet(viewsets.ModelViewSet):
@@ -10,22 +12,15 @@ class UserProfileSet(viewsets.ModelViewSet):
 
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
-    authentication_classes = []
+    authentication_classes = [authentication.TokenAuthentication]
+
+    def get_permissions(self):
+        if self.action == 'create':
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = []
+
+        return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: UserProfileSerializer):
-        is_mobile = self.request.data.get('is_mobile', False)
-
-        if is_mobile:
-            serializer.save(
-                self.request.data['first_name'],
-                self.request.data['last_name']
-            )
-        else:
-            if self.request.user:
-                serializer.save(
-                    self.request.data['first_name'],
-                    self.request.data['last_name'],
-                    web_user=self.request.user
-                )
-            else:
-                raise NotAuthenticated("User is not logged in.", 401)
+        serializer.save()

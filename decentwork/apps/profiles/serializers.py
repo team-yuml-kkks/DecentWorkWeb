@@ -1,46 +1,68 @@
-from typing import Optional
-
 from rest_framework import serializers
 
 from decentwork.apps.common.models import User
+from decentwork.apps.cities.models import City
+from decentwork.apps.professions.models import Profession
 from decentwork.apps.profiles.models import UserProfile
 
 
+class UserNamesSerializer(serializers.ModelSerializer):
+    """Provides additional information for UserProfileSerializer."""
+
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name')
+        extra_kwargs = {
+            'id': {'read_only': True}
+        }
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
-    """Provides json serializer for `UserProfile` model"""
+    """Provides json serializer for `UserProfile` model."""
+    professions = serializers.SlugRelatedField(
+        many=True,
+        queryset=Profession.objects.all(),
+        slug_field='name',
+        allow_null=True,
+        required=False
+    )
 
-    def save(self, first_name: str, last_name: str, web_user: Optional[User] = None):
-        """Saves user profile.
+    city = serializers.SlugRelatedField(
+        queryset=City.objects.all(),
+        slug_field='name',
+        allow_null=True,
+        required=False
+    )
 
-        Adds to common `User` model first_name and last_name
-        and creates User Profile for specific user.
-
-        Args:
-            first_name: User's first_name
-            last_name: User's last_name
-        """
-        if web_user is None:
-            user = self.validated_data['user']
-        else:
-            user = web_user
-
-        user.first_name = first_name
-        user.last_name = last_name
-        user.save()
-
-        user_profile = UserProfile.objects.create(
-            user=user,
-            city=self.validated_data.get('city', None),
-            description=self.validated_data.get('description', None),
-            phone_numbers=self.validated_data.get('phone_number', None)
-        )
-
-        professions = self.validated_data.get('professions', None)
-
-        if professions is not None:
-            for profession in professions:
-                user_profile.professions.add(profession)
+    user = UserNamesSerializer(
+        allow_null=True,
+        required=False
+    )
 
     class Meta:
         model = UserProfile
         fields = '__all__'
+
+    def create(self, validated_data):
+        professions = None
+
+        if 'professions' in validated_data:
+            professions = validated_data.pop('professions')
+
+        auth_user = self.context['request'].user
+
+        if 'user' in validated_data:
+            user = validated_data.pop('user')
+            User.objects.filter(id=auth_user.id).update(**user)
+            user = User.objects.get(id=auth_user.id)
+        else:
+            user = auth_user
+
+        validated_data['user'] = user
+
+        profile = UserProfile.objects.create(**validated_data)
+
+        if professions is not None:
+            profile.professions.add(*professions)
+
+        return profile
