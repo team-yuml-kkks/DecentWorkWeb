@@ -69,10 +69,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 class UserProfileList(serializers.ModelSerializer):
-    user = UserNamesSerializer(
-        allow_null=True,
-        required=False
-    )
+    user = UserNamesSerializer()
 
     professions = serializers.SlugRelatedField(
         many=True,
