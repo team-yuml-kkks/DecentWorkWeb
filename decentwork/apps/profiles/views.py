@@ -43,13 +43,13 @@ class Get4UserProfiles(APIView):
             'user__first_name', 'user__last_name'
         ).order_by('?')[:2]
 
-        profiles2 = UserProfile.objects.exclude(
+        profiles_with_professions = UserProfile.objects.exclude(
             professions=None
         ).select_related('user').only(
             'user__first_name', 'user__last_name'
         ).order_by('?')[:2]
 
-        profiles_all = profiles.union(profiles2)
+        profiles_all = profiles.union(profiles_with_professions)
         profiles_response = []
 
         for profile in profiles_all:
