@@ -10,7 +10,9 @@ class EngagmentSerializer(serializers.ModelSerializer):
     """Serialize `Engagment` to json."""
     profession = serializers.SlugRelatedField(
         queryset=Profession.objects.all(),
-        slug_field='name'
+        slug_field='name',
+        allow_null=True,
+        required=False
     )
 
     city = serializers.SlugRelatedField(
@@ -20,13 +22,14 @@ class EngagmentSerializer(serializers.ModelSerializer):
 
     owner = serializers.SlugRelatedField(
         queryset=User.objects.all(),
-        slug_field='email'
+        slug_field='email',
+        allow_null=True,
+        required=False
     )
 
     class Meta:
         model = Engagment
-        fields = ('id', 'title', 'profession', 'owner', 'city', 'title', 'description', 'created')
+        fields = ('id', 'profession', 'owner', 'city', 'title', 'description', 'created')
         extra_kwargs = {
-            'id': {'read_only': True},
-            'city': {'required': False}
+            'id': {'read_only': True}
         }
