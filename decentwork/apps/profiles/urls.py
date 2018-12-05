@@ -7,4 +7,6 @@ from . import views
 router = DefaultRouter()
 router.register(r'userProfiles', views.UserProfileSet)
 
-urlpatterns = [] + router.urls
+urlpatterns = [
+    path('four/', views.Get4UserProfiles.as_view())
+] + router.urls
