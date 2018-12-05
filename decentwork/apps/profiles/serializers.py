@@ -66,3 +66,26 @@ class UserProfileSerializer(serializers.ModelSerializer):
             profile.professions.add(*professions)
 
         return profile
+
+
+class UserProfileList(serializers.ModelSerializer):
+    user = UserNamesSerializer()
+
+    professions = serializers.SlugRelatedField(
+        many=True,
+        queryset=Profession.objects.all(),
+        allow_null=True,
+        required=False,
+        slug_field='name'
+    )
+
+    city = serializers.SlugRelatedField(
+        queryset=City.objects.all(),
+        allow_null=True,
+        required=False,
+        slug_field='name'
+    )
+
+    class Meta:
+        model = UserProfile
+        fields = ('user', 'professions', 'city')
