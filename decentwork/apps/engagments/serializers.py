@@ -29,7 +29,7 @@ class EngagmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Engagment
-        fields = ('id', 'title', 'profession', 'owner', 'city', 'title', 'description', 'created')
+        fields = ('id', 'profession', 'owner', 'city', 'title', 'description', 'created')
         extra_kwargs = {
             'id': {'read_only': True}
         }
