@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from decentwork.apps.common.models import User
 from decentwork.apps.cities.models import City
+from decentwork.apps.common.models import User
 from decentwork.apps.professions.models import Profession
 from decentwork.apps.profiles.models import UserProfile
 
