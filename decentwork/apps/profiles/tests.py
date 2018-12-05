@@ -12,7 +12,7 @@ class UserProfilesTests(APITestCase):
         token = Token.objects.get(user=1)
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
-    def test_create_method_status201(self):
+    def test_create_method_status_201(self):
         self._get_credentials()
         data = {'description': 'test', 'city': 'Warszawa', 'professions': 'Hydraulik',
                 'phone_numbers': '123456789'}
