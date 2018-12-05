@@ -40,7 +40,7 @@ class Get4UserProfiles(APIView):
         profiles = UserProfile.objects.filter(
             professions=None
         ).select_related('user').only(
-            'user__first_name', 'user__last_name'
+            'user__first_name', 'user__last_name', 'user__id'
         ).order_by('?')[:2]
 
         profiles_with_professions = UserProfile.objects.exclude(
@@ -55,6 +55,7 @@ class Get4UserProfiles(APIView):
         for profile in profiles_all:
             profiles_response.append({
                 'user': {
+                    'id': profile.user.id,
                     'first_name': profile.user.first_name,
                     'last_name': profile.user.last_name
                 },
