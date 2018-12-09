@@ -5,6 +5,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient, APITestCase
 
 from decentwork.apps.common.models import User
+from decentwork.apps.common.views import TokenSignIn
 
 
 class UserApiTests(APITestCase):
@@ -68,14 +69,14 @@ class UserApiTests(APITestCase):
 
     def test_retriving_user_when_wrong_id(self):
         """Tests if status_code is 404 when no user in database."""
-        response = self.client.get('/common/users/2/')
+        response = self.client.get('/common/users/18/')
         self.assertEqual(response.status_code, 404)
 
     def test_update_user_email_only(self):
         """Tests if update user viewset method work for email only."""
         token = Token.objects.get(user=1)
         self.apiclient.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        data = {'email': 'test2@test.com'}
+        data = {'email': 'test18@test.com'}
         response = self.apiclient.patch('/common/users/1/', data)
         self.assertEqual(response.status_code, 200)
 
@@ -84,7 +85,7 @@ class UserApiTests(APITestCase):
         token = Token.objects.get(user=1)
         self.apiclient.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         data = {'email': 'test2@test.com'}
-        response = self.apiclient.patch('/common/users/2/', data)
+        response = self.apiclient.patch('/common/users/18/', data)
         self.assertEqual(response.status_code, 404)
 
     def test_login_when_everything_is_fine(self):
@@ -129,3 +130,8 @@ class UserApiTests(APITestCase):
         data = {'email': 'tes@test.com', 'password': 'test1234'}
         response = self.client.post('/common/login/', data)
         self.assertEqual(response.status_code, 401)
+
+    def test_token_view_when_no_id_token(self):
+        """Tests if sign in with Google from mobile return 401 when no idToken sent."""
+        response = self.apiclient.post('/common/tokensignin/')
+        self.assertEqual(response.status_code, 400)
