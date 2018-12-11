@@ -43,29 +43,18 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = '__all__'
 
-    def create(self, validated_data):
-        """Creates user profile and updates user object if necessary."""
-        professions = None
+    def update(self, instance, validated_data):
+        user = validated_data.get('user', None)
 
-        if 'professions' in validated_data:
-            professions = validated_data.pop('professions')
+        if user:
+            instance.user.first_name = user.get('first_name', '')
+            instance.user.last_name = user.get('last_name', '')
 
-        auth_user = self.context['request'].user
-
-        if 'user' in validated_data:
-            user = validated_data.pop('user')
-            User.objects.filter(id=auth_user.id).update(**user)
-            user = User.objects.get(id=auth_user.id)
-        else:
-            user = auth_user
-
-        validated_data['user'] = user
-        profile = UserProfile.objects.create(**validated_data)
-
-        if professions is not None:
-            profile.professions.add(*professions)
-
-        return profile
+        instance.city = validated_data.get('city', None)
+        instance.phone_numbers = validated_data.get('phone_numbers', None)
+        instance.professions.set(validated_data.get('professions', []))
+        instance.description = validated_data.get('description', None)
+        return instance
 
 
 class UserProfileList(serializers.ModelSerializer):

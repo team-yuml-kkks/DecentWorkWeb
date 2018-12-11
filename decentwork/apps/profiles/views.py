@@ -17,15 +17,13 @@ class UserProfileSet(viewsets.ModelViewSet):
     authentication_classes = [authentication.TokenAuthentication]
 
     def get_permissions(self):
-        if self.action == 'create':
+        actions = ['create', 'update', 'partial_update']
+        if self.action in actions:
             permission_classes = [IsAuthenticated]
         else:
             permission_classes = []
 
         return [permission() for permission in permission_classes]
-
-    def perform_create(self, serializer: UserProfileSerializer):
-        serializer.save()
 
 
 class Get4UserProfiles(APIView):

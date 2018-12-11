@@ -20,14 +20,14 @@ class UserProfilesTests(APITestCase):
 
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
-    def test_create_method_status_201(self):
+    def test_update_method_status_201(self):
         self._get_credentials()
         data = {'description': 'test', 'city': 'Warszawa', 'professions': 'Hydraulik',
                 'phone_numbers': '123456789'}
-        response = self.client.post('/profiles/userProfiles/', data)
-        self.assertEqual(response.status_code, 201)
+        response = self.client.put('/profiles/userProfiles/1/', data)
+        self.assertEqual(response.status_code, 200)
 
-    def test_create_response_when_success(self):
+    def test_update_response_when_success(self):
         self._get_credentials()
         data = {
             'user': {
@@ -36,14 +36,14 @@ class UserProfilesTests(APITestCase):
             'description': 'test', 'city': 'Warszawa', 'professions': ['Hydraulik'],
             'phone_numbers': ['123456789']
         }
-        response = self.client.post('/profiles/userProfiles/', data, format='json')
+        response = self.client.put('/profiles/userProfiles/1/', data, format='json')
         self.assertEqual(response.data['user']['first_name'], 'Test')
         self.assertEqual(response.data['user']['last_name'], 'Test2')
         self.assertEqual(response.data['description'], 'test')
         self.assertEqual(response.data['city'], 'Warszawa')
         self.assertEqual(response.data['professions'][0], 'Hydraulik')
 
-    def test_create_when_no_description(self):
+    def test_update_when_no_description(self):
         self._get_credentials()
         data = {
             'user': {
@@ -52,10 +52,10 @@ class UserProfilesTests(APITestCase):
             'city': 'Warszawa', 'professions': ['Hydraulik'],
             'phone_numbers': ['123456789']
         }
-        response = self.client.post('/profiles/userProfiles/', data, format='json')
-        self.assertEqual(response.status_code, 201)
+        response = self.client.put('/profiles/userProfiles/1/', data, format='json')
+        self.assertEqual(response.status_code, 200)
 
-    def test_create_when_no_phone(self):
+    def test_update_when_no_phone(self):
         self._get_credentials()
         data = {
             'user': {
@@ -63,10 +63,10 @@ class UserProfilesTests(APITestCase):
             },
             'city': 'Warszawa', 'professions': ['Hydraulik'], 'description': 'test'
         }
-        response = self.client.post('/profiles/userProfiles/', data, format='json')
-        self.assertEqual(response.status_code, 201)
+        response = self.client.put('/profiles/userProfiles/1/', data, format='json')
+        self.assertEqual(response.status_code, 200)
 
-    def test_create_when_no_city(self):
+    def test_update_when_no_city(self):
         self._get_credentials()
         data = {
             'user': {
@@ -74,10 +74,10 @@ class UserProfilesTests(APITestCase):
             },
             'professions': ['Hydraulik'], 'description': 'test'
         }
-        response = self.client.post('/profiles/userProfiles/', data, format='json')
-        self.assertEqual(response.status_code, 201)
+        response = self.client.put('/profiles/userProfiles/1/', data, format='json')
+        self.assertEqual(response.status_code, 200)
 
-    def test_create_when_no_profession(self):
+    def test_update_when_no_profession(self):
         self._get_credentials()
         data = {
             'user': {
@@ -85,10 +85,10 @@ class UserProfilesTests(APITestCase):
             },
             'city': 'Warszawa', 'description': 'test'
         }
-        response = self.client.post('/profiles/userProfiles/', data, format='json')
-        self.assertEqual(response.status_code, 201)
+        response = self.client.put('/profiles/userProfiles/1/', data, format='json')
+        self.assertEqual(response.status_code, 200)
 
-    def test_create_when_no_last_name(self):
+    def test_update_when_no_last_name(self):
         self._get_credentials()
         data = {
             'user': {
@@ -96,10 +96,10 @@ class UserProfilesTests(APITestCase):
             },
             'city': 'Warszawa', 'description': 'test'
         }
-        response = self.client.post('/profiles/userProfiles/', data, format='json')
-        self.assertEqual(response.status_code, 201)
+        response = self.client.put('/profiles/userProfiles/1/', data, format='json')
+        self.assertEqual(response.status_code, 200)
 
-    def test_create_when_no_first_name(self):
+    def test_update_when_no_first_name(self):
         self._get_credentials()
         data = {
             'user': {
@@ -107,10 +107,10 @@ class UserProfilesTests(APITestCase):
             },
             'city': 'Warszawa', 'description': 'test'
         }
-        response = self.client.post('/profiles/userProfiles/', data, format='json')
-        self.assertEqual(response.status_code, 201)
+        response = self.client.put('/profiles/userProfiles/1/', data, format='json')
+        self.assertEqual(response.status_code, 200)
 
-    def test_create_when_two_professions(self):
+    def test_update_when_two_professions(self):
         self._get_credentials()
         data = {
             'user': {
@@ -118,15 +118,10 @@ class UserProfilesTests(APITestCase):
             },
             'city': 'Warszawa', 'professions': ['Hydraulik', 'Elektryk'], 'description': 'test'
         }
-        response = self.client.post('/profiles/userProfiles/', data, format='json')
-        self.assertEqual(response.status_code, 201)
+        response = self.client.put('/profiles/userProfiles/1/', data, format='json')
+        self.assertEqual(response.status_code, 200)
 
-    def test_create_when_no_data(self):
-        self._get_credentials()
-        response = self.client.post('/profiles/userProfiles/')
-        self.assertEqual(response.status_code, 201)
-
-    def test_create_when_no_token(self):
+    def test_update_when_no_token(self):
         data = {
             'user': {
                 'last_name': 'Test2',
@@ -149,14 +144,14 @@ class UserProfilesTests(APITestCase):
         self.assertEqual(response.data['city'], None)
         self.assertEqual(response.data['professions'], ['Hydraulik', 'Elektryk'])
 
-    def test_update_city(self):
+    def test_partial_update_city(self):
         """Test update city in profile."""
         data = {'city': 'Łódź'}
         self._get_credentials(1)
         response = self.client.patch('/profiles/userProfiles/1/', data)
         self.assertEqual(response.data['city'], 'Łódź')
 
-    def test_update_professions(self):
+    def test_partial_update_professions(self):
         """Test update profile's professions."""
         data = {'professions': 'Murarz'}
         self._get_credentials(1)

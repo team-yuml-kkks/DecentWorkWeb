@@ -1,5 +1,8 @@
+from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from decentwork.apps.cities.models import City
 from decentwork.apps.common.models import User
@@ -26,3 +29,9 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.email
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
