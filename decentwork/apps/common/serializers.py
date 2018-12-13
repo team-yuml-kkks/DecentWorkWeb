@@ -3,7 +3,8 @@ from rest_framework import serializers
 
 from decentwork.apps.common.models import User
 from decentwork.apps.common.selectors import (get_token_by_email,
-                                              get_token_by_id)
+                                              get_token_by_id,
+                                              get_id_by_email)
 
 
 user_fields = {
@@ -43,10 +44,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 
 class UserLoginSerializer(serializers.ModelSerializer):
+    id = serializers.SerializerMethodField()
     token = serializers.SerializerMethodField()
 
     def get_token(self, obj):
         return get_token_by_email(obj['email'])
+
+    def get_id(self, obj):
+        return get_id_by_email(obj['email'])
 
     class Meta:
         model = User
@@ -56,10 +61,14 @@ class UserLoginSerializer(serializers.ModelSerializer):
 
 class GoogleTokenSerializer(serializers.ModelSerializer):
     """Handle response for Google oauth2 token sign in from mobile."""
+    id = serializers.SerializerMethodField()
     token = serializers.SerializerMethodField()
 
     def get_token(self, obj):
         return get_token_by_email(obj['email'])
+
+    def get_id(self, obj):
+        return get_id_by_email(obj['email'])
 
     class Meta:
         model = User
