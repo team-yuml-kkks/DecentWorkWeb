@@ -2,6 +2,8 @@ from typing import Dict
 
 from rest_framework.authtoken.models import Token
 
+from decentwork.apps.common.models import User
+
 
 def get_token_by_email(email: str) -> Dict[str, str]:
     """Gets user's authentication token key by email address.
@@ -36,4 +38,4 @@ def get_id_by_email(email: str) -> int:
     Returns:
         User's id.
     """
-    return User.objects.filter(email=obj['email']).values('id').first()['id']
+    return User.objects.filter(email=email).values('id').first()['id']
