@@ -1,4 +1,4 @@
-from rest_framework import authentication, viewsets
+from rest_framework import authentication, mixins, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 
@@ -30,3 +30,16 @@ class EngagmentsViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer: EngagmentSerializer):
         serializer.save(owner=self.request.user)
+
+
+class UserEngagmentsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """List of engagments which user created."""
+
+    serializer_class = EngagmentSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """Selects engagments created by user."""
+        user = self.request.user
+        return Engagment.objects.filter(owner=user)
