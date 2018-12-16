@@ -6,5 +6,6 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'', views.EngagmentsViewSet)
+router.register(r'user/engagments', views.UserEngagmentsListViewSet, base_name="user_engagments")
 
 urlpatterns = [] + router.urls
