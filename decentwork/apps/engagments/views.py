@@ -2,8 +2,9 @@ from rest_framework import authentication, mixins, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 
-from decentwork.apps.engagments.models import Engagment
-from decentwork.apps.engagments.serializers import EngagmentSerializer
+from decentwork.apps.engagments.models import Engagment, UserAssigned
+from decentwork.apps.engagments.serializers import (EngagmentSerializer,
+                                                    AssignEngagmentSerializer)
 
 
 class EngagmentsPagination(PageNumberPagination):
@@ -14,7 +15,6 @@ class EngagmentsPagination(PageNumberPagination):
 
 class EngagmentsViewSet(viewsets.ModelViewSet):
     """ViewSet for `Engagment` model."""
-
     queryset = Engagment.objects.filter(is_done=False).order_by('created')
     serializer_class = EngagmentSerializer
     authentication_classes = [authentication.TokenAuthentication]
@@ -34,7 +34,6 @@ class EngagmentsViewSet(viewsets.ModelViewSet):
 
 class UserEngagmentsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """List of engagments which user created."""
-
     serializer_class = EngagmentSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -43,3 +42,21 @@ class UserEngagmentsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         """Selects engagments created by user."""
         user = self.request.user
         return Engagment.objects.filter(owner=user)
+
+
+class AssignUserViewSet(mixins.CreateModelMixin,
+                        mixins.DestroyModelMixin,
+                        viewsets.GenericViewSet):
+    """Create assign between user and engagment or delete it."""
+    serializer_class = AssignEngagmentSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'engagment_id'
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_queryset(self):
+        """Selects user's assigned engagments to perform delete."""
+        user = self.request.user
+        return UserAssigned.objects.filter(user=user)
