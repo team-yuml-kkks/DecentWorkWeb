@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from decentwork.apps.cities.models import City
 from decentwork.apps.common.models import User
-from decentwork.apps.engagments.models import Engagment
+from decentwork.apps.engagments.models import Engagment, UserAssigned
 from decentwork.apps.professions.models import Profession
 
 
@@ -33,3 +33,17 @@ class EngagmentSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'id': {'read_only': True}
         }
+
+
+class AssignEngagmentSerializer(serializers.ModelSerializer):
+    """Assign engagment to user which wants to do this engagment."""
+    user = serializers.SlugRelatedField(
+        queryset=User.objects.all(),
+        slug_field='email',
+        allow_null=True,
+        required=False
+    )
+
+    class Meta:
+        model = UserAssigned
+        fields = ('engagment', 'user')
