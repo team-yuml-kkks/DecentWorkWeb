@@ -87,6 +87,14 @@ class EngagmentsApiTests(APITestCase):
         response = self.client.post('/engagments/engagments/', data)
         self.assertEqual(response.status_code, 400)
 
+    def test_update_engagment(self):
+        """Test update engagment returns 200."""
+        self._get_credentials()
+        data = {'title': 'Hello2', 'description': 'lol',
+                'city': 'Warszawa', 'profession': 'Hydraulik'}
+        response = self.client.put('/engagments/engagments/1/', data)
+        self.assertEqual(response.status_code, 200)
+
     def test_assign_engagment_and_user(self):
         """Test assigning engagment with user returns 201."""
         self._get_credentials()
