@@ -7,6 +7,8 @@ from . import views
 router = DefaultRouter()
 router.register(r'engagments', views.EngagmentsViewSet)
 router.register(r'user/engagments', views.UserEngagmentsListViewSet, base_name="user_engagments")
-router.register(r'assign/user', views.AssignUserViewSet, base_name="assing")
+router.register(r'assign/user', views.AssignUserViewSet, base_name="assign")
 
-urlpatterns = [] + router.urls
+urlpatterns = [
+    path('assing/list/', views.ListAssigment.as_view(), name='assign-list')
+] + router.urls
