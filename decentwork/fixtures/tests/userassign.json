@@ -1,0 +1,10 @@
+[
+    {
+        "model": "engagments.userassigned",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "engagment": 2
+        }
+    }
+]
