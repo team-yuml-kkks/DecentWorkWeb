@@ -40,7 +40,7 @@ class UserAssigned(models.Model):
     """Stores users which assign themselfs to single engagment.
     
     Attributes:
-        engagment('Engagment'): Engagment which user assigned yourself.
+        engagment('Engagment'): Engagment which user assigned himself.
         user('User'): Assigned user.
     """
     engagment = models.ForeignKey(Engagment, on_delete=models.CASCADE)
