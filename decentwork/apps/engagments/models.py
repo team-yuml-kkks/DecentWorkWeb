@@ -34,3 +34,14 @@ class Engagment(models.Model):
         """Adds to created as time now."""
         self.created = timezone.now()
         return super().save(*args, **kwargs)
+
+
+class UserAssigned(models.Model):
+    """Stores users which assign themselfs to single engagment.
+    
+    Attributes:
+        engagment('Engagment'): Engagment which user assigned yourself.
+        user('User'): Assigned user.
+    """
+    engagment = models.ForeignKey(Engagment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
