@@ -39,7 +39,7 @@ class AssignEngagmentSerializer(serializers.ModelSerializer):
     """Assign engagment to user which wants to do this engagment."""
     user = serializers.SlugRelatedField(
         queryset=User.objects.all(),
-        slug_field='email',
+        slug_field='id',
         allow_null=True,
         required=False
     )

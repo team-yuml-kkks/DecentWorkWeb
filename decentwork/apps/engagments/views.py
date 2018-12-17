@@ -1,4 +1,5 @@
-from rest_framework import authentication, mixins, viewsets
+from rest_framework import authentication, generics, mixins, viewsets
+from rest_framework.exceptions import ParseError
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 
@@ -60,3 +61,16 @@ class AssignUserViewSet(mixins.CreateModelMixin,
         """Selects user's assigned engagments to perform delete."""
         user = self.request.user
         return UserAssigned.objects.filter(user=user)
+
+
+class ListAssigment(generics.ListAPIView):
+    serializer_class = AssignEngagmentSerializer
+    authentication_classes = []
+
+    def get_queryset(self):
+        engagment = self.request.query_params.get('engagment', None)
+
+        if engagment is None:
+            raise ParseError('No engagment passed')
+
+        return UserAssigned.objects.filter(engagment=engagment)
