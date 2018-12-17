@@ -22,7 +22,8 @@ class EngagmentsViewSet(viewsets.ModelViewSet):
     pagination_class = EngagmentsPagination
 
     def get_permissions(self):
-        if self.action == 'create':
+        actions = ['create', 'update', 'partial_update']
+        if self.action in actions:
             permission_classes = [IsAuthenticated]
         else:
             permission_classes = []
@@ -30,6 +31,9 @@ class EngagmentsViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer: EngagmentSerializer):
+        serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer: EngagmentSerializer):
         serializer.save(owner=self.request.user)
 
 
