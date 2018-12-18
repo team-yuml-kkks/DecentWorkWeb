@@ -10,5 +10,6 @@ router.register(r'user/engagments', views.UserEngagmentsListViewSet, base_name="
 router.register(r'assign/user', views.AssignUserViewSet, base_name="assign")
 
 urlpatterns = [
-    path('assing/list/', views.ListAssigment.as_view(), name='assign-list')
+    path('assing/list/', views.ListAssigment.as_view(), name='assign-list'),
+    path('assign/check/', views.CheckAssign.as_view(), name='assign-check'),
 ] + router.urls
