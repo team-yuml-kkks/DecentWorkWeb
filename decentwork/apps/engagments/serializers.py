@@ -47,3 +47,7 @@ class AssignEngagmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAssigned
         fields = ('engagment', 'user')
+
+
+class CheckAssignSerializer(serializers.Serializer):
+    is_assigned = serializers.BooleanField(default=False)

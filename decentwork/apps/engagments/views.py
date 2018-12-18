@@ -1,11 +1,14 @@
-from rest_framework import authentication, generics, mixins, viewsets
+from rest_framework import authentication, generics, mixins, status, viewsets
 from rest_framework.exceptions import ParseError
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from decentwork.apps.engagments.models import Engagment, UserAssigned
-from decentwork.apps.engagments.serializers import (EngagmentSerializer,
-                                                    AssignEngagmentSerializer)
+from decentwork.apps.engagments.serializers import (AssignEngagmentSerializer,
+                                                    CheckAssignSerializer,
+                                                    EngagmentSerializer)
 
 
 class EngagmentsPagination(PageNumberPagination):
@@ -68,6 +71,7 @@ class AssignUserViewSet(mixins.CreateModelMixin,
 
 
 class ListAssigment(generics.ListAPIView):
+    """List all assigned users to single engagment"""
     serializer_class = AssignEngagmentSerializer
     authentication_classes = []
 
@@ -78,3 +82,25 @@ class ListAssigment(generics.ListAPIView):
             raise ParseError('No engagment passed')
 
         return UserAssigned.objects.filter(engagment=engagment)
+
+
+class CheckAssign(APIView):
+    """Check if user is assigned to engagment already."""
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None) -> Response:
+        user = self.request.user
+        engagment = self.request.query_params.get('engagment', None)
+
+        if engagment is None:
+            return Response('No engagment passed', status=status.HTTP_400_BAD_REQUEST)
+        
+        assign = UserAssigned.objects.filter(user=user, engagment=engagment).first()
+
+        if assign:
+            serializer = CheckAssignSerializer({'is_assigned': True})
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            serializer = CheckAssignSerializer()
+            return Response(serializer.data, status=status.HTTP_200_OK)
