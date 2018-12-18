@@ -122,3 +122,41 @@ class EngagmentsApiTests(APITestCase):
         """Test if assign list returns 400 when no engagment passed."""
         response = self.client.get('/engagments/assing/list/')
         self.assertEqual(response.status_code, 400)
+
+    def test_assign_check_no_engagment(self):
+        """Test if assign check returns 400 when no engagment passed."""
+        self._get_credentials()
+        response = self.client.get('/engagments/assign/check/')
+        self.assertEqual(response.status_code, 400)
+
+    def test_assign_check_no_credentials(self):
+        """Test if assign check returns 401 when no credentials passed."""
+        response = self.client.get('/engagments/assign/check/')
+        self.assertEqual(response.status_code, 401)
+
+    def test_assign_check(self):
+        """Test assign_check when success."""
+        data = {'engagment': 1}
+        self._get_credentials()
+        response = self.client.get('/engagments/assign/check/', data)
+        self.assertEqual(response.status_code, 200)
+
+    def test_assign_check_when_not_assigned(self):
+        """
+        Test if response contains key is_assigned and it contains False
+        when user is not assigned to engagment.
+        """
+        data = {'engagment': 1}
+        self._get_credentials()
+        response = self.client.get('/engagments/assign/check/', data)
+        self.assertEqual(response.data['is_assigned'], False)
+
+    def test_assign_check_when_assigned(self):
+        """
+        Test if response contains key is_assigned and it contains True
+        when user is assigned to engagment.
+        """
+        data = {'engagment': 2}
+        self._get_credentials()
+        response = self.client.get('/engagments/assign/check/', data)
+        self.assertEqual(response.data['is_assigned'], True)
