@@ -1,4 +1,4 @@
-from rest_framework import authentication, status, viewsets
+from rest_framework import authentication, mixins, status, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -19,7 +19,7 @@ class UserProfilePagination(PageNumberPagination):
 class UserProfileSet(viewsets.ModelViewSet):
     """ViewSet for UserProfile model."""
 
-    queryset = UserProfile.objects.exclude(professions=None).order_by('?')
+    queryset = UserProfile.objects.exclude().order_by('?')
     serializer_class = UserProfileSerializer
     authentication_classes = [authentication.TokenAuthentication]
     pagination_class = UserProfilePagination
@@ -72,3 +72,12 @@ class Get4UserProfiles(APIView):
         serializer = UserProfileList(profiles_response, many=True)
 
         return Response(serializer.data, status.HTTP_200_OK)
+
+
+class ProfilesWithProfession(mixins.ListModelMixin, viewsets.GenericViewSet):
+    queryset = UserProfile.objects.exclude(professions=None).order_by('?')
+    serializer_class = UserProfileSerializer
+    authentication_classes = []
+    pagination_class = UserProfilePagination
+
+
