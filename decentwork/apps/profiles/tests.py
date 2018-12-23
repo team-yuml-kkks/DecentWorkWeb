@@ -158,11 +158,6 @@ class UserProfilesTests(APITestCase):
         response = self.client.patch('/profiles/userProfiles/1/', data)
         self.assertEqual(response.data['professions'], ['Murarz'])
 
-    def test_four_profiles_status_200(self):
-        """Tests if endpoint returns 200."""
-        response = self.client.get('/profiles/four/')
-        self.assertEqual(response.status_code, 200)
-
     def test_length_of_response_json_array(self):
         """Test if reponse contains 4 json objects."""
         response = self.client.get('/profiles/four/')

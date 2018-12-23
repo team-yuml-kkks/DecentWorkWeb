@@ -13,23 +13,7 @@ from rest_framework.views import APIView
 
 from decentwork.apps.common.models import User
 from decentwork.apps.common.serializers import (UserLoginSerializer,
-                                                UserRegisterSerializer,
                                                 GoogleTokenSerializer)
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    """ViewSet for User common model."""
-    queryset = User.objects.all()
-    serializer_class = UserRegisterSerializer
-    authentication_classes = [authentication.TokenAuthentication]
-
-    def get_permissions(self):
-        if self.action == 'create' or self.action == 'retrieve':
-            permission_classes = []
-        else:
-            permission_classes = [IsAuthenticated]
-
-        return [permission() for permission in permission_classes]
 
 
 class UserApiLogin(APIView):

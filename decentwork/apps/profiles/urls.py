@@ -8,6 +8,4 @@ router = DefaultRouter()
 router.register(r'userProfiles', views.UserProfileSet)
 router.register(r'withProfession', views.ProfilesWithProfession)
 
-urlpatterns = [
-    path('four/', views.Get4UserProfiles.as_view())
-] + router.urls
+urlpatterns = [] + router.urls

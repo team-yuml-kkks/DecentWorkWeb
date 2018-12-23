@@ -15,34 +15,6 @@ user_fields = {
 }
 
 
-class UserRegisterSerializer(serializers.ModelSerializer):
-    token = serializers.SerializerMethodField()
-
-    def validate_email(self, value: str) -> str:
-        """Validate if email is unique.
-
-        Returns:
-            If email is unique returns it.
-
-        Raises:
-            ValidationError: When email is not unique.
-        """
-        user = User.objects.filter(email=value)
-
-        if user:
-            raise ValidationError('Taki email już istnieje.')
-
-        return value
-
-    def get_token(self, obj):
-        return get_token_by_id(obj.id)
-
-    class Meta:
-        model = User
-        fields = ('id', 'email', 'password', 'token')
-        extra_kwargs = user_fields
-
-
 class UserLoginSerializer(serializers.ModelSerializer):
     id = serializers.SerializerMethodField()
     token = serializers.SerializerMethodField()
