@@ -6,7 +6,7 @@ from decentwork.apps.common.models import User
 from decentwork.apps.professions.models import Profession
 
 
-class Engagment(models.Model):
+class Notice(models.Model):
     """User's engagments model.
 
     Arguments:
@@ -43,5 +43,5 @@ class UserAssigned(models.Model):
         engagment('Engagment'): Engagment which user assigned himself.
         user('User'): Assigned user.
     """
-    engagment = models.ForeignKey(Engagment, on_delete=models.CASCADE)
+    notice = models.ForeignKey(Notice, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

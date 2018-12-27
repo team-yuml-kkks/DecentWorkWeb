@@ -2,12 +2,12 @@ from rest_framework import serializers
 
 from decentwork.apps.cities.models import City
 from decentwork.apps.common.models import User
-from decentwork.apps.engagments.models import Engagment, UserAssigned
+from decentwork.apps.notices.models import Notice, UserAssigned
 from decentwork.apps.professions.models import Profession
 
 
-class EngagmentSerializer(serializers.ModelSerializer):
-    """Serialize `Engagment` to json."""
+class NoticeSerializer(serializers.ModelSerializer):
+    """Serialize `Notice` to json."""
     profession = serializers.SlugRelatedField(
         queryset=Profession.objects.all(),
         slug_field='name',
@@ -28,15 +28,15 @@ class EngagmentSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = Engagment
+        model = Notice
         fields = ('id', 'profession', 'owner', 'city', 'title', 'description', 'created')
         extra_kwargs = {
             'id': {'read_only': True}
         }
 
 
-class AssignEngagmentSerializer(serializers.ModelSerializer):
-    """Assign engagment to user which wants to do this engagment."""
+class AssignNoticeSerializer(serializers.ModelSerializer):
+    """Assign notice to user which wants to do this notice."""
     user = serializers.SlugRelatedField(
         queryset=User.objects.all(),
         slug_field='id',
@@ -48,7 +48,7 @@ class AssignEngagmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserAssigned
-        fields = ('engagment', 'user', 'email')
+        fields = ('notice', 'user', 'email')
 
 
 class CheckAssignSerializer(serializers.Serializer):
