@@ -44,9 +44,11 @@ class AssignEngagmentSerializer(serializers.ModelSerializer):
         required=False
     )
 
+    email = serializers.CharField(source='user.email')
+
     class Meta:
         model = UserAssigned
-        fields = ('engagment', 'user')
+        fields = ('engagment', 'user', 'email')
 
 
 class CheckAssignSerializer(serializers.Serializer):
