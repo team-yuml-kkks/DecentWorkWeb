@@ -111,7 +111,7 @@ class EngagmentsApiTests(APITestCase):
     def test_assign_list(self):
         """Test showing list of users assigned to single engagment."""
         data = {'engagment': 2}
-        response = self.client.get('/engagments/assing/list/', data)
+        response = self.client.get('/engagments/assign/list/', data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data[0]['engagment'], 2)
         self.assertEqual(response.data[0]['user'], 1)
@@ -120,7 +120,7 @@ class EngagmentsApiTests(APITestCase):
 
     def test_assign_list_when_no_engagment_passed(self):
         """Test if assign list returns 400 when no engagment passed."""
-        response = self.client.get('/engagments/assing/list/')
+        response = self.client.get('/engagments/assign/list/')
         self.assertEqual(response.status_code, 400)
 
     def test_assign_check_no_engagment(self):
