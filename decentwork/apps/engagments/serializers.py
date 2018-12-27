@@ -44,7 +44,7 @@ class AssignEngagmentSerializer(serializers.ModelSerializer):
         required=False
     )
 
-    email = serializers.CharField(source='user.email')
+    email = serializers.CharField(source='user.email', read_only=True)
 
     class Meta:
         model = UserAssigned
