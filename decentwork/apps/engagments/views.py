@@ -45,6 +45,7 @@ class UserEngagmentsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = EngagmentSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    pagination_class = EngagmentsPagination
 
     def get_queryset(self):
         """Selects engagments created by user."""
