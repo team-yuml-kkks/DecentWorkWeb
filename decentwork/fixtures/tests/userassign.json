@@ -1,18 +1,18 @@
 [
     {
-        "model": "engagments.userassigned",
+        "model": "notices.userassigned",
         "pk": 1,
         "fields": {
             "user": 1,
-            "engagment": 2
+            "notice": 2
         }
     },
     {
-        "model": "engagments.userassigned",
+        "model": "notices.userassigned",
         "pk": 2,
         "fields": {
             "user": 3,
-            "engagment": 2
+            "notice": 2
         }
     }
 ]

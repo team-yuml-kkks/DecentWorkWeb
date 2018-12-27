@@ -4,8 +4,8 @@ from rest_framework.test import APIClient, APITestCase
 from decentwork.apps.common.models import User
 
 
-class EngagmentsApiTests(APITestCase):
-    fixtures = ['users', 'cities', 'professions', 'engagments', 'userassign']
+class NoticesApiTests(APITestCase):
+    fixtures = ['users', 'cities', 'professions', 'notices', 'userassign']
 
     def setUp(self):
         self.client = APIClient()

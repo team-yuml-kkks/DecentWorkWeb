@@ -5,24 +5,24 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from decentwork.apps.engagments.models import Engagment, UserAssigned
-from decentwork.apps.engagments.serializers import (AssignEngagmentSerializer,
+from decentwork.apps.notices.models import Notice, UserAssigned
+from decentwork.apps.notices.serializers import (AssignNoticeSerializer,
                                                     CheckAssignSerializer,
-                                                    EngagmentSerializer)
+                                                    NoticeSerializer)
 
 
-class EngagmentsPagination(PageNumberPagination):
+class NoticePagination(PageNumberPagination):
     page_size = 15
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
 
-class EngagmentsViewSet(viewsets.ModelViewSet):
-    """ViewSet for `Engagment` model."""
-    queryset = Engagment.objects.filter(is_done=False).order_by('created')
-    serializer_class = EngagmentSerializer
+class NoticesViewSet(viewsets.ModelViewSet):
+    """ViewSet for `Notice` model."""
+    queryset = Notice.objects.filter(is_done=False).order_by('created')
+    serializer_class = NoticeSerializer
     authentication_classes = [authentication.TokenAuthentication]
-    pagination_class = EngagmentsPagination
+    pagination_class = NoticePagination
 
     def get_permissions(self):
         actions = ['create', 'update', 'partial_update']
@@ -33,71 +33,71 @@ class EngagmentsViewSet(viewsets.ModelViewSet):
 
         return [permission() for permission in permission_classes]
 
-    def perform_create(self, serializer: EngagmentSerializer):
+    def perform_create(self, serializer: NoticeSerializer):
         serializer.save(owner=self.request.user)
 
-    def perform_update(self, serializer: EngagmentSerializer):
+    def perform_update(self, serializer: NoticeSerializer):
         serializer.save(owner=self.request.user)
 
 
-class UserEngagmentsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    """List of engagments which user created."""
-    serializer_class = EngagmentSerializer
+class UserNoticesListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """List of notices which user created."""
+    serializer_class = NoticeSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    pagination_class = EngagmentsPagination
+    pagination_class = NoticePagination
 
     def get_queryset(self):
-        """Selects engagments created by user."""
+        """Selects otices created by user."""
         user = self.request.user
-        return Engagment.objects.filter(owner=user)
+        return Notice.objects.filter(owner=user)
 
 
 class AssignUserViewSet(mixins.CreateModelMixin,
                         mixins.DestroyModelMixin,
                         viewsets.GenericViewSet):
-    """Create assign between user and engagment or delete it."""
-    serializer_class = AssignEngagmentSerializer
+    """Create assign between user and notice or delete it."""
+    serializer_class = AssignNoticeSerializer
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    lookup_field = 'engagment_id'
+    lookup_field = 'notice_id'
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
-        """Selects user's assigned engagments to perform delete."""
+        """Selects user's assigned notices to perform delete."""
         user = self.request.user
         return UserAssigned.objects.filter(user=user)
 
 
 class ListAssigment(generics.ListAPIView):
-    """List all assigned users to single engagment"""
-    serializer_class = AssignEngagmentSerializer
+    """List all assigned users to single notice"""
+    serializer_class = AssignNoticeSerializer
     authentication_classes = []
 
     def get_queryset(self):
-        engagment = self.request.query_params.get('engagment', None)
+        notice = self.request.query_params.get('notice', None)
 
-        if engagment is None:
-            raise ParseError('No engagment passed')
+        if notice is None:
+            raise ParseError('No notice passed')
 
-        return UserAssigned.objects.filter(engagment=engagment)
+        return UserAssigned.objects.filter(notice=notice)
 
 
 class CheckAssign(APIView):
-    """Check if user is assigned to engagment already."""
+    """Check if user is assigned to notice already."""
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None) -> Response:
         user = self.request.user
-        engagment = self.request.query_params.get('engagment', None)
+        notice = self.request.query_params.get('notice', None)
 
-        if engagment is None:
-            return Response('No engagment passed', status=status.HTTP_400_BAD_REQUEST)
+        if notice is None:
+            return Response('No notice passed', status=status.HTTP_400_BAD_REQUEST)
         
-        assign = UserAssigned.objects.filter(user=user, engagment=engagment).first()
+        assign = UserAssigned.objects.filter(user=user, notice=notice).first()
 
         if assign:
             serializer = CheckAssignSerializer({'is_assigned': True})
