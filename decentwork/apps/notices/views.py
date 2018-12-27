@@ -1,4 +1,5 @@
 from rest_framework import authentication, generics, mixins, status, viewsets
+from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
@@ -25,7 +26,7 @@ class NoticesViewSet(viewsets.ModelViewSet):
     pagination_class = NoticePagination
 
     def get_permissions(self):
-        actions = ['create', 'update', 'partial_update']
+        actions = ['create', 'update', 'partial_update', 'set_notice_done']
         if self.action in actions:
             permission_classes = [IsAuthenticated]
         else:
@@ -38,6 +39,14 @@ class NoticesViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer: NoticeSerializer):
         serializer.save(owner=self.request.user)
+
+    @action(detail=True, methods=['post'])
+    def set_notice_done(self, request, pk=None):
+        if pk is None:
+            return Response('No id notice passed', status=status.HTTP_400_BAD_REQUEST)
+        
+        Notice.objects.filter(pk=pk, owner=request.user).update(is_done=True)
+        return Response(status=status.HTTP_200_OK)
 
 
 class UserNoticesListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
