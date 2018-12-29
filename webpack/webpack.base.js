@@ -18,7 +18,7 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use : {
-                  loader: 'babel-loader'
+                    loader: 'babel-loader'
                 }
             },
             {
@@ -52,10 +52,10 @@ module.exports = {
                     publicPath: 'assets/fonts/'
                 }
             },
-	        {
-	            test: /\.vue$/,
+	    {
+	        test: /\.vue$/,
                 loader: 'vue-loader',
-	        }
+	    }
         ]
     },
     plugins: [
@@ -63,7 +63,7 @@ module.exports = {
             filename: "[name].[hash].css",
             chunkFilename: "[id].css"
         }),
-	    new VueLoaderPlugin(),
+	new VueLoaderPlugin(),
     ],
     optimization: {
         // Extract shared runtime code.
