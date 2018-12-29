@@ -34,9 +34,20 @@ module.exports = {
                         }
                     },
                     {
+                        loader: 'postcss-loader', // Run post css actions
+                        options: {
+                            plugins: function () { // post css plugins, can be exported to postcss.config.js
+                                return [
+                                    require('precss'),
+                                    require('autoprefixer')
+                                ];
+                            }
+                        }
+                    },
+                    {
                         loader: "sass-loader",
                         options: {}
-                    }
+                    },
                 ]
             },
             {
@@ -61,9 +72,9 @@ module.exports = {
     plugins: [
         new MiniCssExtractPlugin({
             filename: "[name].[hash].css",
-            chunkFilename: "[id].css"
+            chunkFilename: "[id].[hash].css"
         }),
-	new VueLoaderPlugin(),
+	    new VueLoaderPlugin(),
     ],
     optimization: {
         // Extract shared runtime code.
