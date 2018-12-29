@@ -13,6 +13,8 @@
                 <div class="dropdown-menu" aria-labelledby="profileDropdown">
                     <a class="dropdown-item" href="#">Zobacz profil</a>
                     <a class="dropdown-item" href="#">Zmień hasło</a>
+                    <router-link class="dropdown-item"
+                        to="/notices/my">Moje ogłoszenia</router-link> 
                 </div>
             </div>
             <form class="form-inline my-2" method="POST" action="/accounts/logout/">

@@ -18,4 +18,8 @@
 
 {% get_js 'app' %}
 
+<script>
+localStorage.setItem('email', '{{ request.user.email }}')
+localStorage.setItem('token', '{{ request.session.token }}')
+</script>
 {% endblock %}
