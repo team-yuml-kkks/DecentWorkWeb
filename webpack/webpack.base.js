@@ -52,7 +52,12 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|ico)$/,
-                loader: 'file-loader?name=assets/images/[name].[hash].[ext]'
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[hash].[ext]',
+                    outputPath: 'assets/images',
+                    publicPath: '/static/assets/images'
+                }
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
