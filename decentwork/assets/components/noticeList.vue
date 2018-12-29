@@ -19,8 +19,8 @@
                 </tr>
             </tbody>
         </table>
-        <button v-if="previousURL != null" @click="loadPage(previousURL)">Poprzednia</button>
-        <button v-if="nextURL != null" @click="loadPage(nextURL)">Następna</button>
+        <button v-if="previousURL != null" @click="getNotices(previousURL)">Poprzednia</button>
+        <button v-if="nextURL != null" @click="getNotices(nextURL)">Następna</button>
     </div>
 </template>
 
@@ -51,9 +51,6 @@ export default {
                         this.previousURL = response.data.previous
                     })
                 .then(() => this.loading = false)
-        },
-        loadPage (URL) {
-            this.getNotices(URL)
         },
     }
 }
