@@ -5,8 +5,8 @@ Project for creating profiles, register work, get job.
 
 ```
 python 3.6
-node v10.0
-npm v6.4.1
+node v8.10.0
+npm v6.5.0
 ```
 
 ## Installation
