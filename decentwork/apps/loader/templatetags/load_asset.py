@@ -19,7 +19,7 @@ def get_js(resource_path: str) -> Any:
         HTML tag with full url to javascript file.
     """
     url = get_static_url(resource_path, extension='js')
-    return mark_safe('<script src="%s"></script>' % (url))
+    return mark_safe('<script type="text/javascript" src="%s"></script>' % (url))
 
 
 @register.simple_tag

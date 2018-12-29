@@ -3,10 +3,9 @@
 {% load load_asset %}
 
 {% block content %}
-<div id="application">
-</div>
+{% get_js 'runtime' %}
 
-<p>Home Page</p>
+<div id="app"></div>
 
 {% get_js 'app' %}
 
