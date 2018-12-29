@@ -19,6 +19,8 @@
                 </tr>
             </tbody>
         </table>
+        <button v-if="previousURL != null" @click="loadPage(previousURL)">Poprzednia</button>
+        <button v-if="nextURL != null" @click="loadPage(nextURL)">Następna</button>
     </div>
 </template>
 
@@ -30,19 +32,29 @@ export default {
         return {
             notices: [],
             loading: false,
+            nextURL: null,
+            previousURL: null,
         }
     },
     created () {
-        this.getNotices()
+        this.getNotices('/notices/notices/')
     },
     methods: {
-        getNotices () {
+        getNotices (URL) {
+            this.notices = []
             this.loading = true
-            axios.get('/notices/notices')
-                .then((response) => response.data.results.map(
-                    (notice) => this.notices.push(notice)))
+            axios.get(URL)
+                .then((response) => {
+                        response.data.results
+                            .map((notice) => this.notices.push(notice))
+                        this.nextURL = response.data.next
+                        this.previousURL = response.data.previous
+                    })
                 .then(() => this.loading = false)
-        }
+        },
+        loadPage (URL) {
+            this.getNotices(URL)
+        },
     }
 }
 </script>
