@@ -3,6 +3,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
     target: 'web',
@@ -13,6 +14,13 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use : {
+                  loader: 'babel-loader'
+                }
+            },
             {
                 test: /\.(scss|css)$/,
                 use: [
@@ -43,7 +51,11 @@ module.exports = {
                     outputPath: 'assets/fonts',
                     publicPath: 'assets/fonts/'
                 }
-            }
+            },
+	        {
+	            test: /\.vue$/,
+                loader: 'vue-loader',
+	        }
         ]
     },
     plugins: [
@@ -51,6 +63,7 @@ module.exports = {
             filename: "[name].[hash].css",
             chunkFilename: "[id].css"
         }),
+	    new VueLoaderPlugin(),
     ],
     optimization: {
         // Extract shared runtime code.
