@@ -74,7 +74,7 @@ module.exports = {
             filename: "[name].[hash].css",
             chunkFilename: "[id].[hash].css"
         }),
-	    new VueLoaderPlugin(),
+        new VueLoaderPlugin(),
     ],
     optimization: {
         // Extract shared runtime code.
