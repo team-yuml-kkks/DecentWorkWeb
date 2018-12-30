@@ -1,7 +1,9 @@
 import VueRouter from 'vue-router'
 import Vue from 'vue'
+import Vuelidate from 'vuelidate'
 
 Vue.use(VueRouter)
+Vue.use(Vuelidate)
 
 const routes = [
     {
@@ -25,6 +27,10 @@ const routes = [
         path: '/notices/my',
         component: require('./components/noticeList.vue').default,
         props: { startURL: '/notices/user/notices/' }
+    },
+    {
+        path: '/user/password/change',
+        component: require('./components/changePassword.vue').default
     },
 ];
 
