@@ -3,7 +3,8 @@ from typing import Any, Dict, Optional
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, password_validation
+from django.core.exceptions import ValidationError
 from google.auth.transport import requests
 from google.oauth2 import id_token
 from rest_framework import authentication, status, viewsets
@@ -139,3 +140,25 @@ class TokenSignIn(APIView):
         user.save()
 
         return user
+
+
+class PasswordChange(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+
+    def get_permissions(self):
+        permission_classes = [IsAuthenticated]
+
+        return [permission() for permission in permission_classes]
+    
+    def post(self, request, format=None):
+        if not self.request.user.check_password(self.request.data.get("oldpassword")):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        try:
+            new_password = self.request.data.get('password1', None)
+            password_validation.validate_password(new_password)
+            self.request.user.set_password(new_password)
+            self.request.user.save()
+            return Response(status=status.HTTP_200_OK)
+        except ValidationError as error:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
