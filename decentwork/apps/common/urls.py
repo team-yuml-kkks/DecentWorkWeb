@@ -7,4 +7,5 @@ from . import views
 urlpatterns = [
     path('login/', views.UserApiLogin.as_view()),
     path('tokensignin/', views.TokenSignIn.as_view()),
+    path('user/password/change/', views.PasswordChange.as_view()),
 ]
