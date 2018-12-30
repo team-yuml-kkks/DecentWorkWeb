@@ -2,6 +2,6 @@
     <div>
         <navbar />
         <p class="test">Hello world Vue</p>
-        <router-view></router-view>
+        <router-view :key="$route.fullPath"></router-view>
     </div>
 </template>

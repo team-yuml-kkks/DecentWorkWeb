@@ -36,20 +36,31 @@ export default {
             previousURL: null,
         }
     },
+    props: {
+        startURL: String,
+    },
     created () {
-        this.getNotices('/notices/notices/')
+        this.getNotices(this.startURL)
     },
     methods: {
         getNotices (URL) {
             this.notices = []
             this.loading = true
-            axios.get(URL)
+
+            let config = {
+                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
+            }
+
+            axios.get(URL, config)
                 .then((response) => {
                         response.data.results
                             .map((notice) => this.notices.push(notice))
                         this.nextURL = response.data.next
                         this.previousURL = response.data.previous
                     })
+                .catch((error) => {
+                    console.log(error)
+                })
                 .then(() => this.loading = false)
         },
     }
