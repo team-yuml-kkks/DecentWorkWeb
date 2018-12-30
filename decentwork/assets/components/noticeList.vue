@@ -1,26 +1,30 @@
 <template>
-    <div>
-        <table class="table">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">Tytuł</th>
-                    <th scope="col">Opis</th>
-                    <th scope="col">Miasto</th>
-                    <th scope="col">Profesja</th>
-                </tr>
-            </thead>
-            <tbody>
-                <img v-if="loading" src="./../images/loading.gif">
-                <tr v-for="notice in notices" :key="notice.id">
-                    <td>{{ notice.title }}</td>
-                    <td>{{ notice.description }}</td>
-                    <td>{{ notice.city }}</td>
-                    <td>{{ notice.profession }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <button v-if="previousURL != null" @click="getNotices(previousURL)">Poprzednia</button>
-        <button v-if="nextURL != null" @click="getNotices(nextURL)">Następna</button>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Tytuł</th>
+                            <th scope="col">Opis</th>
+                            <th scope="col">Miasto</th>
+                            <th scope="col">Profesja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <img v-if="loading" src="./../images/loading.gif">
+                        <tr v-for="notice in notices" :key="notice.id">
+                            <td>{{ notice.title }}</td>
+                            <td>{{ notice.description }}</td>
+                            <td>{{ notice.city }}</td>
+                            <td>{{ notice.profession }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button v-if="previousURL != null" @click="getNotices(previousURL)">Poprzednia</button>
+                <button v-if="nextURL != null" @click="getNotices(nextURL)">Następna</button>
+            </div>
+        </div>
     </div>
 </template>
 
