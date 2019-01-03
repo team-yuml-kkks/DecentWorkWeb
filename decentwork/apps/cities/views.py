@@ -1,7 +1,8 @@
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from decentwork.apps.cities.models import City
 from decentwork.apps.cities.selectors import select_cities_starts_with_query_limit_5
 from decentwork.apps.cities.serializers import CitySerializer
 
@@ -23,3 +24,9 @@ class CityLiveSearch(APIView):
             return Response('No cities with this query', status=status.HTTP_400_BAD_REQUEST)
 
         return Response('No query string', status=status.HTTP_400_BAD_REQUEST)
+
+
+class CityList(generics.ListAPIView):
+    queryset = City.objects.all()
+    serializer_class = CitySerializer
+    authentication_classes = ()

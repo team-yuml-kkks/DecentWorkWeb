@@ -1,7 +1,8 @@
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from decentwork.apps.professions.models import Profession
 from decentwork.apps.professions.selectors import select_professions_starts_with_query_limit_5
 from decentwork.apps.professions.serializers import ProfessionSerializer
 
@@ -23,3 +24,8 @@ class ProfessionLiveSearch(APIView):
             return Response('No cities with this query', status=status.HTTP_400_BAD_REQUEST)
 
         return Response('No query string', status=status.HTTP_400_BAD_REQUEST)
+
+class ProfessionList(generics.ListAPIView):
+    queryset = Profession.objects.all()
+    serializer_class = ProfessionSerializer
+    authentication_classes = ()
