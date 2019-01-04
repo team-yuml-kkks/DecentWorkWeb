@@ -5,4 +5,5 @@ from . import views
 
 urlpatterns = [
     path('search/', views.ProfessionLiveSearch.as_view()),
+    path('professions/', views.ProfessionList.as_view()),
 ]
