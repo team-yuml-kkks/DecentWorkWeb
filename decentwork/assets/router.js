@@ -32,6 +32,10 @@ const routes = [
         path: '/user/password/change',
         component: require('./components/changePassword.vue').default
     },
+    {
+        path: '/user/profile',
+        component: require('./components/editProfile.vue').default
+    },
 ];
 
 const router = new VueRouter({
