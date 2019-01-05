@@ -11,7 +11,8 @@
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <font-awesome-icon icon="user" /></button>
             <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                <a class="dropdown-item" href="#">Zobacz profil</a>
+                <router-link class="dropdown-item"
+                    to="/user/profile">Mój profil</router-link>
                 <router-link class="dropdown-item"
                     to="/user/password/change">Zmień hasło</router-link>
                 <router-link class="dropdown-item"
