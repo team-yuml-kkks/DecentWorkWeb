@@ -23,7 +23,7 @@
             <table>
                 <tbody>
                     <tr v-for="worker in assignedWorkers" :key="worker.user">
-                        <td>{{ worker.email }}</td>
+                        <td @click="toWorkerDetail(worker.user)">{{ worker.email }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -53,6 +53,11 @@ export default {
 
         axios.get('/notices/assign/list/?notice=' + this.$route.params.noticeId)
             .then((response) => response.data.map((worker) => this.assignedWorkers.push(worker)))
+    },
+    methods: {
+        toWorkerDetail (workerId) {
+            this.$router.push({ path: `/workers/details/${workerId}`})
+        }
     }
 }
 </script>
