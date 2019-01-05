@@ -28,7 +28,7 @@
             <table>
                 <tbody>
                     <tr v-for="worker in assignedWorkers" :key="worker.user">
-                        <td>{{ worker.email }}</td>
+                        <td @click="toWorkerDetail(worker.user)">{{ worker.email }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -88,6 +88,9 @@ export default {
 
             axios.delete('/notices/assign/user/' + this.$route.params.noticeId + '/', config)
                 .then((response) => this.isAssigned = false)
+        },
+        toWorkerDetail (workerId) {
+            this.$router.push({ path: `/workers/details/${workerId}`})
         }
     }
 }

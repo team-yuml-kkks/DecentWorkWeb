@@ -13,7 +13,11 @@
                     </thead>
                     <tbody>
                         <img v-if="loading" src="./../images/loading.gif">
-                        <tr v-for="worker in workers" :key="worker.id">
+                        <tr
+                            @click="toWorkerDetail(worker.user.id)"
+                            v-for="worker in workers"
+                            :key="worker.user.id"
+                            class="notice-row">
                             <td>{{ worker.user.first_name }}</td>
                             <td>{{ worker.user.last_name }}</td>
                             <td>{{ worker.city }}</td>
@@ -50,16 +54,19 @@ export default {
 
             axios.get(URL)
                 .then((response) => {
-                        response.data.results
-                            .map((worker) => this.workers.push(worker))
-                        this.nextURL = response.data.next
-                        this.previousURL = response.data.previous
-                    })
+                    response.data.results
+                        .map((worker) => this.workers.push(worker))
+                    this.nextURL = response.data.next
+                    this.previousURL = response.data.previous
+                })
                 .catch((error) => {
                     console.log(error)
                 })
                 .then(() => this.loading = false)
         },
+        toWorkerDetail (workerId) {
+            this.$router.push({ path: `/workers/details/${workerId}`})
+        }
     }
 }
 </script>

@@ -39,6 +39,10 @@ const routes = [
     {
         path: '/notice/details/:noticeId',
         component: require('./components/noticeDetails.vue').default
+    },
+    {
+        path: '/workers/details/:workerId',
+        component: require('./components/profileDetails.vue').default
     }
 ];
 
