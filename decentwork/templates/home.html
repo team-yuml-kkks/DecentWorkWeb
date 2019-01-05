@@ -20,6 +20,7 @@
 
 <script>
 localStorage.setItem('email', '{{ request.user.email }}')
+localStorage.setItem('id', '{{ request.user.id }}')
 localStorage.setItem('token', '{{ request.session.token }}')
 </script>
 {% endblock %}
