@@ -14,6 +14,11 @@
             <p>{{ noticeData.created }}</p>
         </div>
 
+        <div v-if="!(noticeData.owner === userEmail)">
+            <button v-if="!isAssigned" @click="assign">Zgłoś się</button>
+            <button v-else @click="unassign">Anuluj zgłoszenie</button>
+        </div>
+
         <div>
             <p>Liczba zgłoszonych pracowników: {{ this.assignedWorkers.length }}</p>
         </div>
@@ -38,7 +43,9 @@ export default {
     data () {
         return {
             noticeData: {},
-            assignedWorkers: []
+            assignedWorkers: [],
+            isAssigned: false,
+            userEmail: localStorage.getItem('email'),
         }
     },
     mounted: function () {
@@ -53,6 +60,35 @@ export default {
 
         axios.get('/notices/assign/list/?notice=' + this.$route.params.noticeId)
             .then((response) => response.data.map((worker) => this.assignedWorkers.push(worker)))
+
+        let config = {
+            headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
+        }
+
+        axios.get('/notices/assign/check/?notice=' + this.$route.params.noticeId, config)
+            .then((response) => this.isAssigned = response.data.is_assigned)
+    },
+    methods: {
+        assign () {
+            let config = {
+                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
+            }
+
+            let params = {
+                notice: this.$route.params.noticeId
+            }
+
+            axios.post('/notices/assign/user/', params, config)
+                .then((response) => this.isAssigned = true)
+        },
+        unassign () {
+            let config = {
+                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
+            }
+
+            axios.delete('/notices/assign/user/' + this.$route.params.noticeId + '/', config)
+                .then((response) => this.isAssigned = false)
+        }
     }
 }
 </script>
