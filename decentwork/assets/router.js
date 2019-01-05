@@ -36,6 +36,10 @@ const routes = [
         path: '/user/profile',
         component: require('./components/editProfile.vue').default
     },
+    {
+        path: '/notice/details/:noticeId',
+        component: require('./components/noticeDetails.vue').default
+    }
 ];
 
 const router = new VueRouter({
