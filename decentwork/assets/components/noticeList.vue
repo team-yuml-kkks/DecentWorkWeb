@@ -13,7 +13,11 @@
                     </thead>
                     <tbody>
                         <img v-if="loading" src="./../images/loading.gif">
-                        <tr v-for="notice in notices" :key="notice.id">
+                        <tr 
+                            @click="toNoticeDetail(notice.id)"
+                            v-for="notice in notices"
+                            :key="notice.id"
+                            class="notice-row">
                             <td>{{ notice.title }}</td>
                             <td>{{ notice.description }}</td>
                             <td>{{ notice.city }}</td>
@@ -67,6 +71,9 @@ export default {
                 })
                 .then(() => this.loading = false)
         },
+        toNoticeDetail (noticeId) {
+            this.$router.push({ path: `/notice/details/${noticeId}`})
+        }
     }
 }
 </script>

@@ -32,6 +32,18 @@ const routes = [
         path: '/user/password/change',
         component: require('./components/changePassword.vue').default
     },
+    {
+        path: '/user/profile',
+        component: require('./components/editProfile.vue').default
+    },
+    {
+        path: '/notice/details/:noticeId',
+        component: require('./components/noticeDetails.vue').default
+    },
+    {
+        path: '/workers/details/:workerId',
+        component: require('./components/profileDetails.vue').default
+    }
 ];
 
 const router = new VueRouter({

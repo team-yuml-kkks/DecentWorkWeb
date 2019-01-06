@@ -13,6 +13,8 @@ import { faUser } from '@fortawesome/free-solid-svg-icons'
 Vue.use(require('vue-cookies'));
 Vue.component('navbar', require('./components/navbar.vue').default);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('cities-input', require('./components/cities.vue').default)
+Vue.component('profession-input', require('./components/professions.vue').default)
 
 library.add(faUser);
 

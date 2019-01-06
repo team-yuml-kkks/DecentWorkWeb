@@ -5,4 +5,5 @@ from . import views
 
 urlpatterns = [
     path('search/', views.CityLiveSearch.as_view()),
+    path('cities/', views.CityList.as_view()),
 ]
