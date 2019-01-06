@@ -57,9 +57,9 @@ class UserNoticesListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     pagination_class = NoticePagination
 
     def get_queryset(self):
-        """Selects otices created by user."""
+        """Selects notices created by user."""
         user = self.request.user
-        return Notice.objects.filter(owner=user)
+        return Notice.objects.filter(owner=user, is_done=False)
 
 
 class AssignUserViewSet(mixins.CreateModelMixin,
