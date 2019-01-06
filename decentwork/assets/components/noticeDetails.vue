@@ -1,37 +1,42 @@
 <template>
-    <div>
-        <div>
-            <label for="title">Tytuł: </label>
-            <p id="title">{{ noticeData.title }}</p>
-            <label for="owner">Zleceniodawca: </label>
-            <p id="owner">{{ noticeData.owner }}</p>
-            <label for="profession">Profesja: </label>
-            <p id="profession">{{ noticeData.profession }}</p>
-            <label for="city">Miasto: </label>
-            <p id="city">{{ noticeData.city }}</p>
-            <textarea v-model="noticeData.description" readonly></textarea>
-            <label>Stworzono: </label>
-            <p>{{ noticeData.created }}</p>
-        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 notice">
+                <label for="title">Tytuł: {{ noticeData.title }}</label>
+                <br>
+                <label for="owner">Zleceniodawca: {{ noticeData.owner }}</label>
+                <br>
+                <label for="profession">Profesja: {{ noticeData.profession }}</label>
+                <br>
+                <label for="city">Miasto: {{ noticeData.city }}</label>
+                <br>
+                <textarea v-model="noticeData.description" readonly></textarea>
+                <br>
+                <label>Stworzono: {{ noticeData.created }}</label>
 
-        <div v-if="!(noticeData.owner === userEmail)">
-            <button v-if="!isAssigned" @click="assign">Zgłoś się</button>
-            <button v-else @click="unassign">Anuluj zgłoszenie</button>
-        </div>
+                <div v-if="!(noticeData.owner === userEmail)">
+                    <button class="primaryAction" v-if="!isAssigned" @click="assign">Zgłoś się</button>
+                    <button class="primaryAction" v-else @click="unassign">Anuluj zgłoszenie</button>
+                </div>
 
-        <div>
-            <p>Liczba zgłoszonych pracowników: {{ this.assignedWorkers.length }}</p>
-        </div>
-        
-        <div v-if="assignedWorkers.length != 0">
-            <h1>Zgłoszeni pracownicy:</h1>
-            <table>
-                <tbody>
-                    <tr v-for="worker in assignedWorkers" :key="worker.user">
-                        <td @click="toWorkerDetail(worker.user)">{{ worker.email }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            </div>
+
+            <div class="col-md-4 assigned">
+                <div>
+                    <p class="imporant_info">Liczba zgłoszonych pracowników: {{ this.assignedWorkers.length }}</p>
+                </div>
+                
+                <div v-if="assignedWorkers.length != 0">
+                    <h3>Zgłoszeni pracownicy:</h3>
+                    <table>
+                        <tbody>
+                            <tr v-for="worker in assignedWorkers" :key="worker.user">
+                                <td class="assigned-users" @click="toWorkerDetail(worker.user)">{{ worker.email }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </template>

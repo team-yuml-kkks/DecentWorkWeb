@@ -1,25 +1,33 @@
 <template>
     <div class="container">
-        <form @submit.prevent>
-            <div>{{ error }}</div>
-            <div>Pole jest wymagane</div>
-            <div>Hasło musi mieć 8 znaków</div>
-            <label for="id_oldpassword">Obecne hasło:</label>
-            <input type="password" name="oldpassword" v-model.trim="oldPassword"
-                placeholder="Obecne hasło" required id="id_oldpassword">
+        <div class="row">
+            <div class="col-md-12 notice">
+                <form @submit.prevent>
+                    <div>{{ error }}</div>
+                    <div>Pole jest wymagane</div>
+                    <div>Hasło musi mieć 8 znaków</div>
+                    <label for="id_oldpassword">Obecne hasło:</label>
+                    <br>
+                    <input class="input_data" type="password" name="oldpassword" v-model.trim="oldPassword"
+                        placeholder="Obecne hasło" required id="id_oldpassword">
 
-            <div>Pole jest wymagane</div>
-            <div>Hasło musi mieć 8 znaków</div>
-            <label for="id_password1">Nowe hasło:</label>
-            <input type="password" name="password1" v-model.trim="password"
-                placeholder="Nowe hasło" required id="id_password1">
+                    <div>Pole jest wymagane</div>
+                    <div>Hasło musi mieć 8 znaków</div>
+                    <label for="id_password1">Nowe hasło:</label>
+                    <br>
+                    <input class="input_data" type="password" name="password1" v-model.trim="password"
+                        placeholder="Nowe hasło" required id="id_password1">
 
-            <div>Hasła muszą się zgadzać</div>
-            <label for="id_password2">Potwierdź nowe hasło: </label>
-            <input type="password" name="password2" v-model.trim="repeatPassword"
-                placeholder="Potwierdź nowe hasło" required id="id_password2">
-            <button type="submit" @click="changePassword" name="action">Zmień hasło</button>
-        </form>
+                    <div>Hasła muszą się zgadzać</div>
+                    <label for="id_password2">Potwierdź nowe hasło: </label>
+                    <br>
+                    <input class="input_data" type="password" name="password2" v-model.trim="repeatPassword"
+                        placeholder="Potwierdź nowe hasło" required id="id_password2">
+                    <br>
+                    <button class="primaryAction" type="submit" @click="changePassword" name="action">Zmień hasło</button>
+                </form>
+            </div>
+        </div>
     </div>
 </template>
 

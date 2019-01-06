@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <table class="table table-striped">
-                    <thead class="thead-dark">
+                    <thead>
                         <tr>
                             <th scope="col">Imię</th>
                             <th scope="col">Nazwisko</th>

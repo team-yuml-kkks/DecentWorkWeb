@@ -1,21 +1,30 @@
 <template>
-    <div>
-        <h1>Dodaj ogłoszenie</h1>
-        <form @submit.prevent>
-            <label for="title">Tytuł</label>
-            <input type="text" id="title" required v-model.trim="title"
-                placeholder="Podaj tytuł ogłoszenia(Wymagane)" autocomplete="off">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 notice">
+                <h1>Dodaj ogłoszenie</h1>
+                <form @submit.prevent>
+                    <button class="primaryAction" type="submit" @click="addNotice" name="action">Dodaj ogłoszenie</button>
+                    <br>
+                    <label for="title">Tytuł</label>
+                    <br>
+                    <input class="input_data" type="text" id="title" required v-model.trim="title"
+                        placeholder="Podaj tytuł ogłoszenia(Wymagane)" autocomplete="off">
 
-            <textarea placeholder="Opis ogłoszenia" v-model.trim="description"></textarea>
+                    <cities-input />
 
-            <cities-input />
+                    <profession-input />
 
-            <profession-input />
-            
-            <button type="submit" @click="addNotice" name="action">Zapisz ogłoszenie</button>
-        </form>
+                    <br>
+                    <label>Opis</label>
+                    <br>
+                    <textarea placeholder="Opis ogłoszenia" v-model.trim="description"></textarea>
+                    <br>
+                </form>
 
-        <p>{{ status }}</p>
+                <p>{{ status }}</p>
+            </div>
+        </div>
     </div>
 </template>
 

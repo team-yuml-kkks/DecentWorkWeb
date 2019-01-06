@@ -41,19 +41,28 @@ body {
 
 nav {
     margin-bottom: 2em;
-    border-bottom: 2px solid white;
+    border-bottom: 4px solid #4AAE9B;
     font-weight: 500;
     
     a {
-        color: #000;
+        color: #AEB0B5;
         transition: .5s;
 
         &:hover {
             color: #FFF;
             transition: .5s;
-            border-bottom: 1px solid #FFF;
+            border-bottom: 4px solid #4AAE9B;
         }
     }
+}
+
+thead {
+    color: #FFF;
+    background: #5B616B;
+}
+
+tbody {
+    color: #FFF;
 }
 
 tr {
@@ -232,4 +241,51 @@ textarea {
 
 .remember_label {
     vertical-align: middle;
+}
+
+
+//basic notice style 
+.notice {
+    color: #FFF;
+
+    label {
+        border-bottom: 1px solid #4AAE9B;
+    }
+
+    textarea {
+        background: transparent;
+        color: #FFF;
+        border: 1px solid #4AAE9B;
+        outline: none;
+    }
+
+    .primaryAction {
+        color: inherit;
+        border: 1px solid #4AAE9B ;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        padding-left: 1em;
+        padding-right: 1em;
+        transform: scale(1);
+        background-color: #5B616B;
+        transition: 0.15s all ease;
+        
+        &:hover {
+            transform: scale(1.2);
+            border-radius: 8px;
+        }
+    } 
+}
+
+.imporant_info {
+    color: #4AAE9B;
+}
+
+.assigned {
+    color: #FFF;
+}
+
+.assigned-users {
+    cursor: pointer;
 }
