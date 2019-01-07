@@ -21,7 +21,7 @@
                             <td>{{ worker.user.first_name }}</td>
                             <td>{{ worker.user.last_name }}</td>
                             <td>{{ worker.city }}</td>
-                            <td>{{ worker.professions }}</td>
+                            <td>{{ worker.professions.join(', ') }}</td>
                         </tr>
                     </tbody>
                 </table>
