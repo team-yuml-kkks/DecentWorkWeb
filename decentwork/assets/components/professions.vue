@@ -5,7 +5,7 @@
         <br>
         <input class="input_data" type="text" id="profession" @input="professionAutocomplete" 
             required v-model.trim="choosenProfession"
-            placeholder="Podaj miasto(Wymagane)" autocomplete="off">
+            placeholder="Podaj profesje" autocomplete="off">
         <ul class="autocomplete-results">
             <li
                 class="autocomplete-result"
