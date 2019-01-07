@@ -3,12 +3,12 @@
         <div class="row">
             <div class="col-md-12 notice">
                 <form @submit.prevent>
-                    <label for="first-name">Podaj imie: </label>
+                    <label for="first-name">Imie</label>
                     <br>
                     <input class="input_data" type="text" id="first-name" v-model.trim="firstName"
                         placeholder="Podaj imię">
                     <br>
-                    <label for="last-name">Podaj Nazwisko: </label>
+                    <label for="last-name">Nazwisko</label>
                     <br>
                     <input class="input_data" type="text" id="last-name" v-model.trim="lastName"
                         placeholder="Podaj nazwisko">
