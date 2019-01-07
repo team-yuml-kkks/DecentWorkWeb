@@ -4,7 +4,7 @@
         <label for="profession">Profesja</label>
         <br>
         <input class="input_data" type="text" id="profession" @input="professionAutocomplete" 
-            required v-model.trim="choosenProfession"
+            v-model.trim="choosenProfession"
             placeholder="Podaj profesje" autocomplete="off">
         <ul class="autocomplete-results">
             <li
@@ -27,9 +27,12 @@ export default {
             results: [],
         }
     },
+    props: {
+        profession: String,
+    },
     mounted: function () {
         this.getProfessions()
-        this.setProfession('')
+        this.setProfession(this.profession)
     },
     computed: {
         choosenProfession: {

@@ -26,9 +26,12 @@ export default {
             results: [],
         }
     },
+    props: {
+        city: String,
+    },
     mounted: function () {
         this.getCities()
-        this.setCity('')
+        this.setCity(this.city)
     },
     computed: {
         choosenCity: {
