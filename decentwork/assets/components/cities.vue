@@ -44,6 +44,7 @@ export default {
         getCities () {
             axios.get('/cities/cities/')
                 .then((response) => response.data.map((city) => this.cities.push(city)))
+                .then(() => this.results = this.cities)
         },
         cityAutocomplete () {
             this.results = this.cities.filter(city => city.name.startsWith(this.choosenCity))

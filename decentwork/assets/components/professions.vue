@@ -46,6 +46,7 @@ export default {
             axios.get('/professions/professions/')
                 .then((response) => response.data
                     .map((profession) => this.professions.push(profession)))
+                .then(() => this.results = this.professions)
         },
         professionAutocomplete () {
             this.results = this.professions
