@@ -25,8 +25,14 @@
                         </tr>
                     </tbody>
                 </table>
-                <button v-if="previousURL != null" @click="getNotices(previousURL)">Poprzednia</button>
-                <button v-if="nextURL != null" @click="getNotices(nextURL)">Następna</button>
+                <button
+                    class="primaryAction"
+                    v-if="previousURL != null"
+                    @click="getNotices(previousURL)">Poprzednia</button>
+                <button
+                    class="primaryAction"
+                    v-if="nextURL != null"
+                    @click="getNotices(nextURL)">Następna</button>
             </div>
         </div>
     </div>
