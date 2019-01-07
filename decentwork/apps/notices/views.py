@@ -48,6 +48,9 @@ class NoticesViewSet(viewsets.ModelViewSet):
         Notice.objects.filter(pk=pk, owner=request.user).update(is_done=True)
         return Response(status=status.HTTP_200_OK)
 
+    def destroy(self, request, pk=None):
+        pass
+
 
 class UserNoticesListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """List of notices which user created."""
