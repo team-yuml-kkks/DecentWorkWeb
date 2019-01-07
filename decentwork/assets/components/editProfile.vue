@@ -1,24 +1,33 @@
 <template>
-    <div>
-        <form @submit.prevent>
-            <label for="first-name">Podaj imie: </label>
-            <input type="text" id="first-name" v-model.trim="firstName"
-                placeholder="Podaj imię">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 notice">
+                <form @submit.prevent>
+                    <label for="first-name">Podaj imie: </label>
+                    <br>
+                    <input class="input_data" type="text" id="first-name" v-model.trim="firstName"
+                        placeholder="Podaj imię">
+                    <br>
+                    <label for="last-name">Podaj Nazwisko: </label>
+                    <br>
+                    <input class="input_data" type="text" id="last-name" v-model.trim="lastName"
+                        placeholder="Podaj nazwisko">
+                    
+                    <br>
+                    <label>Opis</label>
+                    <br>
+                    <textarea placeholder="Opis profilu" v-model.trim="description"></textarea>
 
-            <label for="last-name">Podaj Nazwisko: </label>
-            <input type="text" id="last-name" v-model.trim="lastName"
-                placeholder="Podaj nazwisko">
+                    <cities-input />
 
-            <textarea placeholder="Opis profilu" v-model.trim="description"></textarea>
+                    <profession-input />
 
-            <cities-input />
+                    <button class="primaryAction" type="submit" @click="saveProfile" name="action">Zapisz</button>
+                </form>
 
-            <profession-input />
-
-            <button type="submit" @click="saveProfile" name="action">Zapisz</button>
-        </form>
-
-        <p>{{ status }}</p>
+                <p>{{ status }}</p>
+            </div>
+        </div>
     </div>
 </template>
 

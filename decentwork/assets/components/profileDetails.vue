@@ -1,10 +1,14 @@
 <template>
-    <div>
-        <p>Imię: {{ workerData.first_name }}</p>
-        <p>Nazwisko: {{ workerData.last_name }}</p>
-        <textarea v-model="workerData.description" readonly></textarea>
-        <p>Miasto: {{ workerData.city }}</p>
-        <p>Profesje: {{ workerData.professions }}</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 notice">
+                <p>Imię: {{ workerData.first_name }}</p>
+                <p>Nazwisko: {{ workerData.last_name }}</p>
+                <textarea v-model="workerData.description" readonly></textarea>
+                <p>Miasto: {{ workerData.city }}</p>
+                <p>Profesje: {{ workerData.professions }}</p>
+            </div>
+        </div>
     </div>
 </template>
 

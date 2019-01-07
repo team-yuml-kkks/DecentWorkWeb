@@ -1,7 +1,8 @@
 <template>
     <div class="autocomplete">
         <label for="city">Miasto</label>
-        <input type="text" id="city" @input="cityAutocomplete" 
+        <br>
+        <input class="input_data" type="text" id="city" @input="cityAutocomplete" 
             required v-model.trim="choosenCity"
             placeholder="Podaj miasto(Wymagane)" autocomplete="off">
         <ul class="autocomplete-results">

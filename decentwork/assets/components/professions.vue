@@ -2,7 +2,8 @@
     <!-- I will probably join it with cities.vue when more time available -->
     <div class="autocomplete">
         <label for="profession">Profesja</label>
-        <input type="text" id="profession" @input="professionAutocomplete" 
+        <br>
+        <input class="input_data" type="text" id="profession" @input="professionAutocomplete" 
             required v-model.trim="choosenProfession"
             placeholder="Podaj miasto(Wymagane)" autocomplete="off">
         <ul class="autocomplete-results">
