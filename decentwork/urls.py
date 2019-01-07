@@ -14,7 +14,7 @@ urlpatterns = [
     path('professions/', include('decentwork.apps.professions.urls')),
     path('profiles/', include('decentwork.apps.profiles.urls')),
     path('notices/', include('decentwork.apps.notices.urls')),
-    path('', home),
+    path('', include('decentwork.apps.home.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
