@@ -75,11 +75,23 @@ tr {
 }
 
 .autocomplete-results {
-    padding: 0;
-    margin: 0;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    width: 18em;
     border: 1px solid #eeeeee;
-    height: 10vh;
+    height: 10em;
     overflow: auto;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    border-radius: 10px;
+    transition: 0.5s;
+    outline: none;
+    background-color: transparent;
+
+    &:focus {
+        color: #FFF;
+        border: 3px solid #4AAE9B;
+    }
 }
 
 .autocomplete-result {
