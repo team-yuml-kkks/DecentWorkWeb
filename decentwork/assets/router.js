@@ -13,7 +13,7 @@ const routes = [
     {
         path: '/notices',
         component: require('./components/noticeList.vue').default,
-        props: { startURL: '/notices/notices/' }
+        props: { startURL: '/notices/notices/', needToken: false }
     },
     {
         path: '/workers',
@@ -26,7 +26,7 @@ const routes = [
     {
         path: '/notices/my',
         component: require('./components/noticeList.vue').default,
-        props: { startURL: '/notices/user/notices/' }
+        props: { startURL: '/notices/user/notices/', needToken: true }
     },
     {
         path: '/user/password/change',
@@ -47,6 +47,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
+    mode: 'history',
     routes,
 });
 

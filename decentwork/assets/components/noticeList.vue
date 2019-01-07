@@ -46,6 +46,7 @@ export default {
     },
     props: {
         startURL: String,
+        needToken: Boolean,
     },
     created () {
         this.getNotices(this.startURL)
@@ -55,8 +56,12 @@ export default {
             this.notices = []
             this.loading = true
 
-            let config = {
-                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
+            var config = {}
+
+            if (this.needToken) {
+                config = {
+                    headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
+                }
             }
 
             axios.get(URL, config)
