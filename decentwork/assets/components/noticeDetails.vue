@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-md-8 notice">
+            <div v-if="!(noticeData.owner === userEmail)" class="col-md-8 notice">
                 <label for="title">Tytuł: {{ noticeData.title }}</label>
                 <br>
                 <label for="owner">Zleceniodawca: {{ noticeData.owner }}</label>
@@ -14,12 +14,30 @@
                 <br>
                 <label>Stworzono: {{ noticeData.created }}</label>
 
-                <div v-if="!(noticeData.owner === userEmail)">
+                <div>
                     <button class="primaryAction" v-if="!isAssigned" @click="assign">Zgłoś się</button>
                     <button class="primaryAction" v-else @click="unassign">Anuluj zgłoszenie</button>
                 </div>
-
             </div>
+            <div v-else class="col-md-8 notice">
+                <form @submit.prevent>
+                    <p>{{ status }}</p>
+                    <label for="title">Tytuł: </label>
+                    <input type="text" v-model.trim="noticeData.title">
+                    <br>
+                    <profession-input v-bind:profession="noticeData.profession" />
+                    <br>
+                    <cities-input v-bind:city="noticeData.city" />
+                    <br>
+                    <textarea v-model.trim="noticeData.description"></textarea>
+
+                    <button
+                        type="submit"
+                        class="primaryAction" 
+                        @click="editNotice">Edytuj ogłoszenie</button>
+                </form>
+            </div>
+            
 
             <div class="col-md-4 assigned">
                 <div>
@@ -43,6 +61,7 @@
 
 <script>
 import axios from 'axios'
+import { mapState, mapActions } from 'vuex'
 
 export default {
     data () {
@@ -51,7 +70,14 @@ export default {
             assignedWorkers: [],
             isAssigned: false,
             userEmail: localStorage.getItem('email'),
+            status: '',
         }
+    },
+    computed: {
+        ...mapState({
+            choosenCity: state => state.choosenCity,
+            choosenProfession: state => state.choosenProfession,
+        })
     },
     mounted: function () {
         axios.get('/notices/notices/' + this.$route.params.noticeId + '/')
@@ -96,7 +122,28 @@ export default {
         },
         toWorkerDetail (workerId) {
             this.$router.push({ path: `/workers/details/${workerId}`})
-        }
+        },
+        editNotice () {
+            let config = {
+                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
+            }
+
+            let params = {
+                'title': this.noticeData.title,
+                'description': this.noticeData.description,
+                'city': this.choosenCity,
+                'profession': this.choosenProfession
+            }
+
+            axios.put('/notices/notices/' + this.$route.params.noticeId + '/', params, config)
+                .then((response) => {
+                    this.status = 'Ogłoszenie zostało zapisane.'
+                })
+        },
+        ...mapActions([
+            'setCity',
+            'setProfession',
+        ])
     }
 }
 </script>
