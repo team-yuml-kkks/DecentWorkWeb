@@ -112,7 +112,8 @@ export default {
                 .then((response) => this.isAssigned = true)
         },
         unassign () {
-            axios.delete('/notices/assign/user/' + this.$route.params.noticeId + '/', this.axiosConfig)
+            axios.delete('/notices/assign/user/' + this.$route.params.noticeId
+                + '/', this.axiosConfig)
                 .then((response) => this.isAssigned = false)
         },
         toWorkerDetail (workerId) {
@@ -126,13 +127,15 @@ export default {
                 'profession': this.choosenProfession
             }
 
-            axios.put('/notices/notices/' + this.$route.params.noticeId + '/', params, this.axiosConfig)
+            axios.put('/notices/notices/' + this.$route.params.noticeId + '/',
+                params, this.axiosConfig)
                 .then((response) => {
                     this.status = 'Ogłoszenie zostało zapisane.'
                 })
         },
         closeNotice () {
-            axios.post('/notices/notices/' + this.$route.params.noticeId + '/set_notice_done/', {}, this.axiosConfig)
+            axios.post('/notices/notices/' + this.$route.params.noticeId + 
+                '/set_notice_done/', {}, this.axiosConfig)
                 .then((response) => {
                     this.status = 'Ogłoszenie zostało zamknięte.'
                 })

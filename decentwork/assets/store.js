@@ -35,8 +35,10 @@ const store = new Vuex.Store({
         updateDescription (state, description) {
             state.currentUser.userData.description = description
         },
-        updateCurrentUser (state, data) {
+        updateCurrentUser (state, data, city, profession) {
             state.currentUser.userData = data
+            state.choosenCity = city
+            state.choosenProfession = profession
         }
     },
     getters: {
@@ -71,9 +73,8 @@ const store = new Vuex.Store({
                         lastName: response.data.user.last_name,
                         description: response.data.description
                     }
-                    commit('updateCurrentUser', data)
-                    commit('updateCity', response.data.city)
-                    commit('updateProfession', response.data.professions[0])
+                    commit('updateCurrentUser', data,
+                        response.data.city, response.data.professions[0])
                 })
         },
     }
