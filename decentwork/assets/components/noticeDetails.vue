@@ -36,6 +36,10 @@
                         class="primaryAction" 
                         @click="editNotice">Edytuj ogłoszenie</button>
                 </form>
+
+                <div>
+                    <button class="primaryAction" @click="closeNotice">Zamknij zgłoszenie</button>
+                </div>
             </div>
             
 
@@ -138,6 +142,16 @@ export default {
             axios.put('/notices/notices/' + this.$route.params.noticeId + '/', params, config)
                 .then((response) => {
                     this.status = 'Ogłoszenie zostało zapisane.'
+                })
+        },
+        closeNotice () {
+            let config = {
+                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
+            }
+
+            axios.post('/notices/notices/' + this.$route.params.noticeId + '/set_notice_done/', {}, config)
+                .then((response) => {
+                    this.status = 'Ogłoszenie zostało zamknięte.'
                 })
         },
         ...mapActions([
