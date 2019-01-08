@@ -53,7 +53,8 @@ export default {
             choosenProfession: state => state.choosenProfession,
         }),
         ...mapGetters([
-            'getUserId'
+            'getUserId',
+            'axiosConfig',
         ]),
         firstName: {
             get () {
@@ -85,10 +86,6 @@ export default {
     },
     methods: {
         saveProfile () {
-            let config = {
-                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
-            }
-
             let params = {
                 'user': {
                     'first_name': this.firstName,
@@ -99,7 +96,7 @@ export default {
                 'professions': [this.choosenProfession]
             }
 
-            axios.put('profiles/userProfiles/' + this.getUserId + '/', params, config)
+            axios.put('/profiles/userProfiles/' + this.getUserId + '/', params, this.axiosConfig)
                 .then((response) => this.status = this.STATUS_TEXTS.ADDED)
                 .catch((error) => {
                     if (error.response.status === 401) {

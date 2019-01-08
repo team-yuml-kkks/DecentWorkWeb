@@ -40,7 +40,12 @@ const store = new Vuex.Store({
         }
     },
     getters: {
-        getUserId: () => localStorage.getItem('id')
+        getUserId: () => localStorage.getItem('id'),
+        axiosConfig () {
+            return {
+                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
+            }
+        }
     },
     actions: {
         setCity ({ commit, state }, city) {
@@ -61,7 +66,6 @@ const store = new Vuex.Store({
         setCurrentUser ({ commit, state }) {
             axios.get('/profiles/userProfiles/' + state.currentUser.userId + '/')
                 .then((response) => {
-                    console.log(response)
                     let data = {
                         firstName: response.data.user.first_name,
                         lastName: response.data.user.last_name,

@@ -65,7 +65,7 @@
 
 <script>
 import axios from 'axios'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
     data () {
@@ -81,7 +81,10 @@ export default {
         ...mapState({
             choosenCity: state => state.choosenCity,
             choosenProfession: state => state.choosenProfession,
-        })
+        }),
+        ...mapGetters([
+            'axiosConfig',
+        ])
     },
     mounted: function () {
         axios.get('/notices/notices/' + this.$route.params.noticeId + '/')
@@ -96,42 +99,26 @@ export default {
         axios.get('/notices/assign/list/?notice=' + this.$route.params.noticeId)
             .then((response) => response.data.map((worker) => this.assignedWorkers.push(worker)))
 
-        let config = {
-            headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
-        }
-
-        axios.get('/notices/assign/check/?notice=' + this.$route.params.noticeId, config)
+        axios.get('/notices/assign/check/?notice=' + this.$route.params.noticeId, this.axiosConfig)
             .then((response) => this.isAssigned = response.data.is_assigned)
     },
     methods: {
         assign () {
-            let config = {
-                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
-            }
-
             let params = {
                 notice: this.$route.params.noticeId
             }
 
-            axios.post('/notices/assign/user/', params, config)
+            axios.post('/notices/assign/user/', params, this.axiosConfig)
                 .then((response) => this.isAssigned = true)
         },
         unassign () {
-            let config = {
-                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
-            }
-
-            axios.delete('/notices/assign/user/' + this.$route.params.noticeId + '/', config)
+            axios.delete('/notices/assign/user/' + this.$route.params.noticeId + '/', this.axiosConfig)
                 .then((response) => this.isAssigned = false)
         },
         toWorkerDetail (workerId) {
             this.$router.push({ path: `/workers/details/${workerId}`})
         },
         editNotice () {
-            let config = {
-                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
-            }
-
             let params = {
                 'title': this.noticeData.title,
                 'description': this.noticeData.description,
@@ -139,17 +126,13 @@ export default {
                 'profession': this.choosenProfession
             }
 
-            axios.put('/notices/notices/' + this.$route.params.noticeId + '/', params, config)
+            axios.put('/notices/notices/' + this.$route.params.noticeId + '/', params, this.axiosConfig)
                 .then((response) => {
                     this.status = 'Ogłoszenie zostało zapisane.'
                 })
         },
         closeNotice () {
-            let config = {
-                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
-            }
-
-            axios.post('/notices/notices/' + this.$route.params.noticeId + '/set_notice_done/', {}, config)
+            axios.post('/notices/notices/' + this.$route.params.noticeId + '/set_notice_done/', {}, this.axiosConfig)
                 .then((response) => {
                     this.status = 'Ogłoszenie zostało zamknięte.'
                 })

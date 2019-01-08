@@ -30,7 +30,7 @@
 
 <script>
 import axios from 'axios'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { not, required, sameAs, minLength } from 'vuelidate/lib/validators'
 
 export default {
@@ -47,17 +47,18 @@ export default {
             }
         }
     },
-    computed: mapState({
-        choosenCity: state => state.choosenCity,
-        choosenProfession: state => state.choosenProfession,
-    }),
+    computed: {
+        ...mapState({
+            choosenCity: state => state.choosenCity,
+            choosenProfession: state => state.choosenProfession,
+        }),
+        ...mapGetters([
+            'axiosConfig',
+        ])
+    },
     methods: {
         addNotice () {
             if (!this.$v.$invalid) {
-                let config = {
-                    headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
-                }
-
                 let params = {
                     'title': this.title,
                     'description': this.description,
@@ -65,7 +66,7 @@ export default {
                     'profession': this.choosenProfession
                 }
 
-                axios.post('/notices/notices/', params, config)
+                axios.post('/notices/notices/', params, this.axiosConfig)
                     .then((response) => this.status = this.STATUS_TEXTS.ADDED)
                     .catch((error) => {
                         if (error.response.status === 401) {
