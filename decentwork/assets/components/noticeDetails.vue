@@ -14,7 +14,7 @@
                 <br>
                 <label>Stworzono: {{ noticeData.created }}</label>
 
-                <div>
+                <div v-if="isLogged">
                     <button class="primaryAction" v-if="!isAssigned" @click="assign">Zgłoś się</button>
                     <button class="primaryAction" v-else @click="unassign">Anuluj zgłoszenie</button>
                 </div>
@@ -90,7 +90,8 @@ export default {
                 EDIT_NOTICE: '/notices/notices/' + this.$route.params.noticeId + '/',
                 CLOSE_NOTICE: '/notices/notices/'
                     + this.$route.params.noticeId + '/set_notice_done/',
-            }
+            },
+            isLogged: is_logged,
         }
     },
     computed: {
@@ -116,8 +117,10 @@ export default {
         axios.get(this.URLS.GET_ASSIGNED_LIST)
             .then((response) => response.data.map((worker) => this.assignedWorkers.push(worker)))
 
-        axios.get(this.URLS.CHECK_USER_ASSIGN, this.axiosConfig)
-            .then((response) => this.isAssigned = response.data.is_assigned)
+        if (this.isLogged) {
+            axios.get(this.URLS.CHECK_USER_ASSIGN, this.axiosConfig)
+                .then((response) => this.isAssigned = response.data.is_assigned)
+        }
     },
     methods: {
         assign () {

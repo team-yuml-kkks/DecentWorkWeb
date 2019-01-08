@@ -16,11 +16,20 @@
 
 <div id="app"></div>
 
+{% if request.user.is_authenticated %}
+    <script>
+        localStorage.setItem('email', '{{ request.user.email }}')
+        localStorage.setItem('id', '{{ request.user.id }}')
+        localStorage.setItem('token', '{{ request.session.token }}')
+        is_logged = true
+    </script>
+{% else %}
+    <script>
+        localStorage.clear()
+        is_logged = false
+    </script>
+{% endif %}
+
 {% get_js 'app' %}
 
-<script>
-localStorage.setItem('email', '{{ request.user.email }}')
-localStorage.setItem('id', '{{ request.user.id }}')
-localStorage.setItem('token', '{{ request.session.token }}')
-</script>
 {% endblock %}
