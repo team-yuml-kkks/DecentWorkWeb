@@ -54,7 +54,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         instance.phone_numbers = validated_data.get('phone_numbers', None)
         instance.professions.set(validated_data.get('professions', []))
         instance.description = validated_data.get('description', None)
-        instance.rating = validated_data('rating', None)
         instance.user.save()
         instance.save()
         return instance
