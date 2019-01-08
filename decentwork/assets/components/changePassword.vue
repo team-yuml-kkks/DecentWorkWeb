@@ -34,6 +34,7 @@
 <script>
 import axios from 'axios'
 import { not, required, sameAs, minLength } from 'vuelidate/lib/validators'
+import { mapGetters } from 'vuex'
 
 export default {
     data () {
@@ -43,6 +44,11 @@ export default {
             repeatPassword: '',
             error: '',
         }
+    },
+    computed: {
+        ...mapGetters([
+            'axiosConfig',
+        ])
     },
     validations: {
         oldPassword: {
@@ -62,18 +68,13 @@ export default {
         changePassword () {
             if (!this.$v.$invalid) {
                 this.error = 'Loading...'
-                let config = {
-                    headers: {
-                        'Authorization': 'Token ' + localStorage.getItem('token'),
-                    },
-                }
 
                 let params = {
                     'oldpassword': this.oldPassword,
                     'password1': this.password,
                 }
 
-                axios.post('/common/user/password/change/', params, config)
+                axios.post('/common/user/password/change/', params, this.axiosConfig)
                     .then((response) => this.error = 'Hasło zostało zmienione')
                     .catch((error) => {
                         if (error.response.status === 401) {

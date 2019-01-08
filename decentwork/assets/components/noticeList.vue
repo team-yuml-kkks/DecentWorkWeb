@@ -40,6 +40,7 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
     data () {
@@ -54,6 +55,11 @@ export default {
         startURL: String,
         needToken: Boolean,
     },
+    computed: {
+        ...mapGetters([
+            'axiosConfig',
+        ])
+    },
     created () {
         this.getNotices(this.startURL)
     },
@@ -65,9 +71,7 @@ export default {
             var config = {}
 
             if (this.needToken) {
-                config = {
-                    headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
-                }
+                config = this.axiosConfig
             }
 
             axios.get(URL, config)
