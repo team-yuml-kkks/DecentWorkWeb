@@ -17,6 +17,7 @@ const store = new Vuex.Store({
                 description: '',
             },
             userId: localStorage.getItem('id'),
+            email: localStorage.getItem('email'),
         }
     },
     mutations: {
@@ -47,7 +48,8 @@ const store = new Vuex.Store({
             return {
                 headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
             }
-        }
+        },
+        userEmail: state => state.currentUser.email,
     },
     actions: {
         setCity ({ commit, state }, city) {

@@ -73,7 +73,6 @@ export default {
             noticeData: {},
             assignedWorkers: [],
             isAssigned: false,
-            userEmail: localStorage.getItem('email'),
             status: '',
         }
     },
@@ -84,6 +83,7 @@ export default {
         }),
         ...mapGetters([
             'axiosConfig',
+            'userEmail',
         ])
     },
     mounted: function () {
