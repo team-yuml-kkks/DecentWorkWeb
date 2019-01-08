@@ -74,6 +74,23 @@ export default {
             assignedWorkers: [],
             isAssigned: false,
             status: '',
+            STATUS_TEXTS: {
+                NOTICE_SAVED: 'Ogłoszenie zostało zapisane.',
+                NOTICE_CLOSED: 'Ogłoszenie zostało zamknięte.',
+            },
+            URLS: {
+                GET_NOTICE: '/notices/notices/' + this.$route.params.noticeId + '/',
+                GET_ASSIGNED_LIST: '/notices/assign/list/?notice='
+                    + this.$route.params.noticeId,
+                CHECK_USER_ASSIGN: '/notices/assign/check/?notice='
+                    + this.$route.params.noticeId,
+                ASSIGN_USER: '/notices/assign/user/',
+                UNASSIGN_USER: '/notices/assign/user/'
+                    + this.$route.params.noticeId + '/',
+                EDIT_NOTICE: '/notices/notices/' + this.$route.params.noticeId + '/',
+                CLOSE_NOTICE: '/notices/notices/'
+                    + this.$route.params.noticeId + '/set_notice_done/',
+            }
         }
     },
     computed: {
@@ -87,7 +104,7 @@ export default {
         ])
     },
     mounted: function () {
-        axios.get('/notices/notices/' + this.$route.params.noticeId + '/')
+        axios.get(this.URLS.GET_NOTICE)
             .then((response) => {
                 this.noticeData = response.data
                 
@@ -96,10 +113,10 @@ export default {
             })
             .catch((error) => console.log(error))
 
-        axios.get('/notices/assign/list/?notice=' + this.$route.params.noticeId)
+        axios.get(this.URLS.GET_ASSIGNED_LIST)
             .then((response) => response.data.map((worker) => this.assignedWorkers.push(worker)))
 
-        axios.get('/notices/assign/check/?notice=' + this.$route.params.noticeId, this.axiosConfig)
+        axios.get(this.URLS.CHECK_USER_ASSIGN, this.axiosConfig)
             .then((response) => this.isAssigned = response.data.is_assigned)
     },
     methods: {
@@ -108,12 +125,11 @@ export default {
                 notice: this.$route.params.noticeId
             }
 
-            axios.post('/notices/assign/user/', params, this.axiosConfig)
+            axios.post(this.URLS.ASSIGN_USER, params, this.axiosConfig)
                 .then((response) => this.isAssigned = true)
         },
         unassign () {
-            axios.delete('/notices/assign/user/' + this.$route.params.noticeId
-                + '/', this.axiosConfig)
+            axios.delete(this.URLS.UNASSIGN_USER, this.axiosConfig)
                 .then((response) => this.isAssigned = false)
         },
         toWorkerDetail (workerId) {
@@ -127,17 +143,15 @@ export default {
                 'profession': this.choosenProfession
             }
 
-            axios.put('/notices/notices/' + this.$route.params.noticeId + '/',
-                params, this.axiosConfig)
+            axios.put(this.URLS.EDIT_NOTICE, params, this.axiosConfig)
                 .then((response) => {
-                    this.status = 'Ogłoszenie zostało zapisane.'
+                    this.status = this.STATUS_TEXTS.NOTICE_SAVED
                 })
         },
         closeNotice () {
-            axios.post('/notices/notices/' + this.$route.params.noticeId + 
-                '/set_notice_done/', {}, this.axiosConfig)
+            axios.post(this.URLS.CLOSE_NOTICE, {}, this.axiosConfig)
                 .then((response) => {
-                    this.status = 'Ogłoszenie zostało zamknięte.'
+                    this.status = this.STATUS_TEXTS.NOTICE_CLOSED
                 })
         },
         ...mapActions([
