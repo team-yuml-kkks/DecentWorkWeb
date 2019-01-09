@@ -40,6 +40,9 @@ class Rating(models.Model):
     rated_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="rated_user")
     rating_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="rating_user")
 
+    class Meta:
+        unique_together = ('rated_user', 'rating_user')
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):

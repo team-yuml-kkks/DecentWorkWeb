@@ -1,9 +1,11 @@
+import functools
+
 from rest_framework import serializers
 
 from decentwork.apps.cities.models import City
 from decentwork.apps.common.models import User
 from decentwork.apps.professions.models import Profession
-from decentwork.apps.profiles.models import UserProfile
+from decentwork.apps.profiles.models import Rating, UserProfile
 
 
 class UserNamesSerializer(serializers.ModelSerializer):
@@ -39,9 +41,19 @@ class UserProfileSerializer(serializers.ModelSerializer):
         required=False
     )
 
+    rating = serializers.SerializerMethodField()
+
     class Meta:
         model = UserProfile
         fields = '__all__'
+
+    def get_rating(self, obj):
+        ratings = Rating.objects.filter(rated_user=obj.user.id).values_list('rating')
+        if ratings:
+            rating = functools.reduce(lambda x, y: x + y[0], ratings, 0)
+            return rating / len(ratings)
+
+        return None
 
     def update(self, instance, validated_data):
         user = validated_data.get('user', None)
@@ -80,3 +92,10 @@ class UserProfileList(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ('user', 'professions', 'city')
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Rating
+        fields = '__all__'

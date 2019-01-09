@@ -157,8 +157,3 @@ class UserProfilesTests(APITestCase):
         self._get_credentials(1)
         response = self.client.patch('/profiles/userProfiles/1/', data)
         self.assertEqual(response.data['professions'], ['Murarz'])
-
-    def test_length_of_response_json_array(self):
-        """Test if reponse contains 4 json objects."""
-        response = self.client.get('/profiles/four/')
-        self.assertEqual(len(response.data), 4)
