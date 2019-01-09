@@ -23,20 +23,25 @@
                 <form @submit.prevent>
                     <p>{{ status }}</p>
                     <label for="title">Tytuł: </label>
-                    <input type="text" v-model.trim="noticeData.title">
+                    <br>
+                    <input class="input_data" type="text" v-model.trim="noticeData.title">
                     <br>
                     <profession-input v-bind:profession="noticeData.profession" />
                     <br>
                     <cities-input v-bind:city="noticeData.city" />
                     <br>
                     <textarea v-model.trim="noticeData.description"></textarea>
-
+                    <br>
                     <button
                         type="submit"
                         class="primaryAction" 
                         @click="editNotice">Edytuj ogłoszenie</button>
                 </form>
 
+                <br>
+                <div>
+                    <button class="primaryAction" @click="closeNotice">Zamknij zgłoszenie</button>
+                </div>
                 <div>
                     <button class="primaryAction" @click="closeNotice">Zamknij zgłoszenie</button>
                 </div>
