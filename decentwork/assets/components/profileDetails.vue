@@ -22,7 +22,7 @@ export default {
         }
     },
     mounted: function () {
-        axios.get('profiles/userProfiles/' + this.$route.params.workerId + '/')
+        axios.get('/profiles/userProfiles/' + this.$route.params.workerId + '/')
             .then((response) => {
                 this.workerData = response.data
                 this.workerData.first_name = response.data.user.first_name

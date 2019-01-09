@@ -17,6 +17,7 @@ const store = new Vuex.Store({
                 description: '',
             },
             userId: localStorage.getItem('id'),
+            email: localStorage.getItem('email'),
         }
     },
     mutations: {
@@ -35,12 +36,20 @@ const store = new Vuex.Store({
         updateDescription (state, description) {
             state.currentUser.userData.description = description
         },
-        updateCurrentUser (state, data) {
+        updateCurrentUser (state, data, city, profession) {
             state.currentUser.userData = data
+            state.choosenCity = city
+            state.choosenProfession = profession
         }
     },
     getters: {
-        getUserId: () => localStorage.getItem('id')
+        getUserId: () => localStorage.getItem('id'),
+        axiosConfig () {
+            return {
+                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
+            }
+        },
+        userEmail: state => state.currentUser.email,
     },
     actions: {
         setCity ({ commit, state }, city) {
@@ -61,15 +70,13 @@ const store = new Vuex.Store({
         setCurrentUser ({ commit, state }) {
             axios.get('/profiles/userProfiles/' + state.currentUser.userId + '/')
                 .then((response) => {
-                    console.log(response)
                     let data = {
                         firstName: response.data.user.first_name,
                         lastName: response.data.user.last_name,
                         description: response.data.description
                     }
-                    commit('updateCurrentUser', data)
-                    commit('updateCity', response.data.city)
-                    commit('updateProfession', response.data.professions[0])
+                    commit('updateCurrentUser', data,
+                        response.data.city, response.data.professions[0])
                 })
         },
     }
