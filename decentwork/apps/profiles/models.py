@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.db.models import Avg
 
 from decentwork.apps.cities.models import City
 from decentwork.apps.common.models import User
@@ -29,6 +31,17 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.email
+
+
+class Rating(models.Model):
+    rating = models.IntegerField(blank=True, null=True, validators=[
+        MaxValueValidator(5), MinValueValidator(1)
+    ])
+    rated_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="rated_user")
+    rating_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="rating_user")
+
+    class Meta:
+        unique_together = ('rated_user', 'rating_user')
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
