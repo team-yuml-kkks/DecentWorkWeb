@@ -35,8 +35,10 @@ class DecentWorkFaker(object):
     def user_assign(self, **kwargs):
         return UserAssignedFactory.create(**kwargs)
 
+    def user_profile(self, **kwargs):
+        return UserProfileFactory.create(**kwargs)
 
-dw_faker = DecentWorkFaker()
+
 fake = factory.Faker
 
 
@@ -95,3 +97,14 @@ class UserAssignedFactory(Factory):
 
     notice = factory.SubFactory(NoticeFactory)
     user = factory.SubFactory(UserFactory)
+
+
+class UserProfileFactory(Factory):
+    class Meta:
+        model = UserProfile
+
+    user = factory.SubFactory(UserFactory)
+    profession = factory.SubFactory(ProfessionFactory)
+    city = factory.SubFactory(CityFactory)
+    description = fake('text')
+    phone_numbers = fake('pystr')
