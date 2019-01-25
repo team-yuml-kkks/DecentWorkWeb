@@ -2,6 +2,7 @@ import factory
 
 from factory.django import DjangoModelFactory as Factory
 from faker import Faker
+from rest_framework.authtoken.models import Token
 
 from decentwork.apps.cities.models import *
 from decentwork.apps.common.models import *
@@ -25,7 +26,17 @@ class DecentWorkFaker(object):
     def user(self, **kwargs):
         return UserFactory.create(**kwargs)
 
+    def notice(self, **kwargs):
+        return NoticeFactory.create(**kwargs)
 
+    def token(self, **kwargs):
+        return TokenFactory.create(*kwargs)
+
+    def user_assign(self, **kwargs):
+        return UserAssignedFactory.create(**kwargs)
+
+
+dw_faker = DecentWorkFaker()
 fake = factory.Faker
 
 
@@ -57,3 +68,30 @@ class UserFactory(Factory):
     def post_generation(self, *args, **kwargs):
         self.set_password(self.password)
         self.save()
+
+
+class NoticeFactory(Factory):
+    class Meta:
+        model = Notice
+
+    owner = factory.SubFactory(UserFactory)
+    profession = factory.SubFactory(ProfessionFactory)
+    city = factory.SubFactory(CityFactory)
+    title = fake('pystr')
+    description = fake('text')
+
+
+class TokenFactory(Factory):
+    class Meta:
+        model = Token
+
+    key = fake('pystr')
+    user = factory.SubFactory(UserFactory)
+
+
+class UserAssignedFactory(Factory):
+    class Meta:
+        model = UserAssigned
+
+    notice = factory.SubFactory(NoticeFactory)
+    user = factory.SubFactory(UserFactory)
