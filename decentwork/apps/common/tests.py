@@ -1,19 +1,15 @@
-from collections import OrderedDict
-
-from django.test import Client, TestCase
 from rest_framework.authtoken.models import Token
-from rest_framework.test import APIClient, APITestCase
 
 from decentwork.apps.common.models import User
 from decentwork.apps.common.views import TokenSignIn
+from decentwork.apps.factories.tests import DecentWorkApiTestCase
 
 
-class UserApiTests(APITestCase):
-    fixtures = ['users']
+class UserApiTests(DecentWorkApiTestCase):
 
-    def setUp(self):
-        self.client = Client()
-        self.apiclient = APIClient()
+    def setUp(self, *args, **kwargs):
+        super().setUp(*args, **kwargs)
+        self.user = self.dw_faker.user(email='test@test.com', password='test1234#')
 
     def test_login_when_everything_is_fine(self):
         """Tests login when success and reponse is 200."""
