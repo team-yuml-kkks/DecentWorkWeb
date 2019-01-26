@@ -1,7 +1,9 @@
 from rest_framework.authtoken.models import Token
 
+from decentwork.apps.cities.models import City
 from decentwork.apps.common.models import User
 from decentwork.apps.factories.tests import DecentWorkApiTestCase
+from decentwork.apps.professions.models import Profession
 
 
 class NoticesApiTests(DecentWorkApiTestCase):
@@ -9,13 +11,11 @@ class NoticesApiTests(DecentWorkApiTestCase):
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
         self.user = self.dw_faker.user()
-        self.city = self.dw_faker.city(name='Warszawa')
-        self.profession = self.dw_faker.profession(name='Hydraulik')
         self.notice = self.dw_faker.notice(
             owner=self.user,
             title='Test',
-            profession=self.profession,
-            city=self.city,
+            profession=Profession.objects.get(name='Hydraulik'),
+            city=City.objects.get(name='Warszawa'),
         )
         self.user_assign = self.dw_faker.user_assign(
             user=self.user,
@@ -115,7 +115,7 @@ class NoticesApiTests(DecentWorkApiTestCase):
     def test_assign_engagment_and_user(self):
         """Test assigning engagment with user returns 201."""
         self._get_credentials()
-        notice2 = self.dw_faker.notice()
+        notice2 = self.dw_faker.notice(owner=self.user)
         data = {'notice': notice2.id}
         response = self.apiclient.post('/notices/assign/user/', data)
         self.assertEqual(response.status_code, 201)

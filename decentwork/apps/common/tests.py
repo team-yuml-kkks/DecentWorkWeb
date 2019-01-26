@@ -22,7 +22,7 @@ class UserApiTests(DecentWorkApiTestCase):
         """Tests login when email has wrong format."""
         data = {'email': 'testtest.com', 'password': 'test1234#'}
         response = self.client.post('/common/login/', data)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 401)
 
     def test_login_when_no_email(self):
         """Tests login when no email in POST data."""

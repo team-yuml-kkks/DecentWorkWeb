@@ -1,5 +1,6 @@
 import factory
 
+from django.db import IntegrityError
 from factory.django import DjangoModelFactory as Factory
 from faker import Faker
 from rest_framework.authtoken.models import Token
@@ -40,6 +41,7 @@ class DecentWorkFaker(object):
 
 
 fake = factory.Faker
+dw_faker = DecentWorkFaker()
 
 
 class CityFactory(Factory):
@@ -67,9 +69,15 @@ class UserFactory(Factory):
     password = fake('password')
 
     @factory.post_generation
-    def post_generation(self, *args, **kwargs):
+    def post_generation(self, create, *args, **kwargs):
         self.set_password(self.password)
         self.save()
+
+        dw_faker.city(name='Łódź')
+        dw_faker.city(name='Warszawa')
+        dw_faker.profession(name="Hydraulik")
+        dw_faker.profession(name="Elektryk")
+        dw_faker.profession(name="Murarz")
 
 
 class NoticeFactory(Factory):
@@ -104,7 +112,6 @@ class UserProfileFactory(Factory):
         model = UserProfile
 
     user = factory.SubFactory(UserFactory)
-    profession = factory.SubFactory(ProfessionFactory)
     city = factory.SubFactory(CityFactory)
     description = fake('text')
     phone_numbers = fake('pystr')

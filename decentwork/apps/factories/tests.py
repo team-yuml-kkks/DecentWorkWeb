@@ -8,6 +8,7 @@ class DecentWorkTestCase(TestCase):
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
         self.dw_faker = DecentWorkFaker()
+        self.client = Client()
 
 
 class DecentWorkApiTestCase(APITestCase):
