@@ -22,24 +22,30 @@ class UserApiLogin(APIView):
 
     def post(self, request, format=None) -> Response:
         """Tries to authenticate user."""
-        serializer = UserLoginSerializer(data=request.data)
+        email = request.data.get('email', None)
+        password = request.data.get('password', None)
 
-        if serializer.is_valid():
-            user = User.objects.filter(
-                email=request.data['email']).first()
+        if not password or not email:
+            return Response("Brak hasła lub email.", status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.filter(
+            email=email).first()
+
+        if user is not None:
+            user = authenticate(
+                username=user.username,
+                password=password
+            )
 
             if user is not None:
-                user = authenticate(
-                    username=user.username,
-                    password=request.data['password']
-                )
+                serializer = UserLoginSerializer(data=request.data)
 
-                if user is not None:
+                if serializer.is_valid():
                     return Response(serializer.data, status=status.HTTP_200_OK)
+                else:
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-            return Response(serializer.data, status=status.HTTP_401_UNAUTHORIZED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response("Brak autoryzacji", status=status.HTTP_401_UNAUTHORIZED)
 
 
 class TokenSignIn(APIView):
