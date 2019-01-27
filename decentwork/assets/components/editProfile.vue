@@ -53,7 +53,7 @@ export default {
             choosenProfession: state => state.choosenProfession,
         }),
         ...mapGetters([
-            'getUserId',
+            'userId',
             'axiosConfig',
         ]),
         firstName: {
@@ -96,7 +96,7 @@ export default {
                 'professions': [this.choosenProfession]
             }
 
-            axios.put('/profiles/userProfiles/' + this.getUserId + '/',
+            axios.put('/profiles/userProfiles/' + this.userId + '/',
                 params, this.axiosConfig)
                 .then((response) => this.status = this.STATUS_TEXTS.ADDED)
                 .catch((error) => {
