@@ -18,6 +18,7 @@ const store = new Vuex.Store({
             },
             userId: localStorage.getItem('id'),
             email: localStorage.getItem('email'),
+            token: localStorage.getItem('token'),
         }
     },
     mutations: {
@@ -43,10 +44,10 @@ const store = new Vuex.Store({
         }
     },
     getters: {
-        getUserId: () => localStorage.getItem('id'),
-        axiosConfig () {
+        userId: state => state.currentUser.userId,
+        axiosConfig (state) {
             return {
-                headers: {'Authorization': 'Token ' + localStorage.getItem('token')},
+                headers: {'Authorization': 'Token ' + state.currentUser.token},
             }
         },
         userEmail: state => state.currentUser.email,

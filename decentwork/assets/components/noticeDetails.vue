@@ -42,9 +42,6 @@
                 <div>
                     <button class="primaryAction" @click="closeNotice">Zamknij zgłoszenie</button>
                 </div>
-                <div>
-                    <button class="primaryAction" @click="closeNotice">Zamknij zgłoszenie</button>
-                </div>
             </div>
             
 
